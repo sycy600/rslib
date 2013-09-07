@@ -4,5 +4,5 @@
 #include "rslib/polynomial.h"
 
 TEST(HelloWorld, Test) {
-    ASSERT_EQ(fun(), 2);
+  Polynomial<int> p;
 }

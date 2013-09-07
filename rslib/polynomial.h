@@ -3,8 +3,12 @@
 #ifndef RSLIB_POLYNOMIAL_H_
 #define RSLIB_POLYNOMIAL_H_
 
-int fun() {
-    return 2;
-}
+/// \brief Polynomial.
+template <class T>
+class Polynomial {
+ public:
+  Polynomial() {
+  }
+};
 
 #endif  // RSLIB_POLYNOMIAL_H_
