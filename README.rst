@@ -21,6 +21,10 @@ Run ``cmake``::
 Testing
 =======
 
+Unit tests are placed in directory ``tests``.
+
+The pattern for test filename is ``*_tests.cc``.
+
 Run unit tests::
 
     cd build
