@@ -1,3 +1,5 @@
+.. image:: https://secure.travis-ci.org/sycy600/rslib.png
+
 Reed-Solomon code library.
 
 Basics
