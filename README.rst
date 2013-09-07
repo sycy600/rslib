@@ -2,8 +2,8 @@
 
 Reed-Solomon code library.
 
-Basics
-======
+How to build
+============
 
 Get dependencies (script tailored for Ubuntu)::
 
