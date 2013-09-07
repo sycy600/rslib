@@ -1,0 +1,13 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+python:
+  - "2.7"
+install:
+  - mkdir build
+  - cd build
+  - cmake ..
+script:
+  - make lint
+  - make test
