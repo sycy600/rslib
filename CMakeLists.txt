@@ -8,7 +8,7 @@ include_directories(.)
 add_subdirectory(vendor/gtest-1.7.0)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 set(testrunner testrunner)
-aux_source_directory(test test_src)
+aux_source_directory(tests test_src)
 add_executable(${testrunner} ${test_src})
 target_link_libraries(${testrunner} gtest gtest_main)
 
