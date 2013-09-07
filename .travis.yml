@@ -5,9 +5,12 @@ compiler:
 python:
   - "2.7"
 install:
+  - ./get_deps_ubuntu.sh
   - mkdir build
   - cd build
   - cmake ..
 script:
   - make lint
   - make test
+  - cd ..
+  - bash run_doxygen.sh
