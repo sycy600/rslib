@@ -3,6 +3,10 @@ Reed-Solomon code library.
 Basics
 ======
 
+Get dependencies (script tailored for Ubuntu)::
+
+    ./get_deps_ubuntu.sh
+
 Create build directory::
 
     mkdir build
@@ -28,3 +32,11 @@ Run ``cpplint.py``::
 Build project and do all checks (all-in-one)::
 
     ./check.sh
+
+Documentation
+=============
+
+Generate documentation and check if there is some not
+documented code::
+
+    ./run_doxygen.sh
