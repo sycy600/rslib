@@ -24,3 +24,7 @@ Run ``cpplint.py``::
 
     cd build
     make lint
+
+Build project and do all checks (all-in-one)::
+
+    ./check.sh
