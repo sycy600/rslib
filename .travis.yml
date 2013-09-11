@@ -16,6 +16,8 @@ install:
   - if [ "$CXX" "==" "clang++" ]; then sudo apt-get update; fi
   - if [ "$CXX" "==" "clang++" ]; then sudo apt-get install clang-3.4; fi
   - if [ "$CXX" "==" "clang++" ]; then /usr/bin/clang --version; fi
+  - if [ "$CXX" "==" "clang++" ]; then whereis clang; fi
+  - if [ "$CXX" "==" "clang++" ]; then which clang; fi
   - $CC --version
   - $CXX --version
   - ./get_deps_ubuntu.sh
