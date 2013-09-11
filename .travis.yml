@@ -10,7 +10,8 @@ install:
   - if [ "$CXX" "==" "g++" ]; then sudo apt-get install g++-4.8; fi
   - if [ "$CXX" "==" "g++" ]; then export CC=gcc-4.8; fi
   - if [ "$CXX" "==" "g++" ]; then export CXX=g++-4.8; fi
-  - if [ "$CXX" "==" "g++" ]; then g++ --version; fi
+  - $CC --version
+  - $CXX --version
   - ./get_deps_ubuntu.sh
   - mkdir build
   - cd build
