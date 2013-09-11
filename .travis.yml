@@ -15,6 +15,8 @@ install:
   - if [ "$CXX" "==" "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; fi
   - if [ "$CXX" "==" "clang++" ]; then sudo apt-get update; fi
   - if [ "$CXX" "==" "clang++" ]; then sudo apt-get install clang-3.4; fi
+  - if [ "$CXX" "==" "clang++" ]; then clang++-3.4 --version; fi
+  - if [ "$CXX" "==" "clang++" ]; then clang++ --version; fi
   - $CC --version
   - $CXX --version
   - ./get_deps_ubuntu.sh
