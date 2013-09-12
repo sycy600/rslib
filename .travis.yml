@@ -5,6 +5,7 @@ compiler:
 python:
   - "2.7"
 install:
+  - sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu/ raring main universe"
   # Repository of gcc, libstdc++ - it's used by clang too
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
