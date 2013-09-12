@@ -5,7 +5,6 @@
 #ifndef RSLIB_POLYNOMIAL_H_
 #define RSLIB_POLYNOMIAL_H_
 
-#include <type_traits>
 #include <algorithm>
 #include <stdexcept>
 #include <string>
