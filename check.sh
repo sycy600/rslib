@@ -7,3 +7,4 @@ cd $HERE/build
 cmake $HERE
 make lint
 make test
+make memcheck

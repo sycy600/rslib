@@ -39,6 +39,12 @@ Build project and do all checks (all-in-one)::
 
     ./check.sh
 
+Check for memory leaks with Valgrind (run Valgrind on unit
+test runner process)::
+
+    cd build
+    make memcheck
+
 Documentation
 =============
 
