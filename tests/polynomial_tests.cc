@@ -93,13 +93,13 @@ TEST(Polynomial, AddNegativePolynomials) {
 TEST(Polynomial, CheckEqualIfNotEqual) {
   rslib::Polynomial<int> first({1, 2});
   rslib::Polynomial<int> second({3, 4, 3});
-  ASSERT_EQ(first == second, false);
-  ASSERT_EQ(first != second, true);
+  ASSERT_FALSE(first == second);
+  ASSERT_TRUE(first != second);
 }
 
 TEST(Polynomial, CheckEqualIfEqual) {
   rslib::Polynomial<int> first({1, 2});
   rslib::Polynomial<int> second({1, 2});
-  ASSERT_EQ(first == second, true);
-  ASSERT_EQ(first != second, false);
+  ASSERT_TRUE(first == second);
+  ASSERT_FALSE(first != second);
 }

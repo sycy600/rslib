@@ -22,18 +22,19 @@ class PolynomialException : public std::runtime_error {
 };
 
 /// \brief Returns true if element is zero.
+/// \param element Number to be compared with zero.
 /// \retval true If element is zero.
 /// \retval false If element is not zero.
-template <class T>
-bool isZero(T element) {
-  if (std::is_integral<T>::value) {
-    return static_cast<int>(element) == 0;
-  } else if (std::is_floating_point<T>::value) {
-    return static_cast<double>(element) == 0.0;
-  } else {
-    throw std::invalid_argument("Only integral and floating"
-                                "numbers are supported");
-  }
+bool isZero(int element) {
+  return element == 0;
+}
+
+/// \brief Returns true if element is zero.
+/// \param element Number to be compared with zero.
+/// \retval true If element is zero.
+/// \retval false If element is not zero.
+bool isZero(double element) {
+  return element == 0.0;
 }
 
 /// \brief Polynomial.
@@ -47,7 +48,7 @@ class Polynomial {
     if (coefficients.size() == 0) {
       throw PolynomialException("Polynomial cannot be empty");
     }
-    clean_zeroes();
+    cleanZeroes();
   }
 
   /// \brief Return degree of polynomial.
@@ -61,9 +62,9 @@ class Polynomial {
   }
 
   /// \brief Set coefficient at given index.
-  void setValue(unsigned int index, T value) {
+  void setValue(unsigned int index, const T& value) {
     coefficients_[index] = value;
-    clean_zeroes();
+    cleanZeroes();
   }
 
   /// \brief Evaluate polynomial using Horner's method.
@@ -96,7 +97,7 @@ class Polynomial {
     for (unsigned int i = smallerDegree + 1; i < other.degree() + 1; ++i) {
       coefficients_.push_back(other.coefficients_[i]);
     }
-    clean_zeroes();
+    cleanZeroes();
     return *this;
   }
 
@@ -104,8 +105,8 @@ class Polynomial {
   std::vector<T> coefficients_;
 
   // Remove all leading zeroes from polynomial but not the last.
-  void clean_zeroes() {
-    while (isZero<T>(coefficients_[degree()]) && degree() > 0) {
+  void cleanZeroes() {
+    while (isZero(coefficients_[degree()]) && degree() > 0) {
       coefficients_.erase(coefficients_.end() - 1);
     }
   }
