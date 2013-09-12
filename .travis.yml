@@ -5,29 +5,41 @@ compiler:
 python:
   - "2.7"
 install:
-  - if [ "$CXX" "==" "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-  - if [ "$CXX" "==" "g++" ]; then sudo apt-get update; fi
+  # Repository of gcc, libstdc++ - it's used by clang too
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+
+  # Add clang repository
+  - if [ "$CXX" "==" "clang++" ]; then sudo add-apt-repository -y "deb http://llvm.org/apt/raring/ llvm-toolchain-raring main"; fi
+  - if [ "$CXX" "==" "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; fi
+  
+  # Update package index
+  - sudo apt-get update
+  
+  # Install g++
   - if [ "$CXX" "==" "g++" ]; then sudo apt-get install g++-4.8; fi
   - if [ "$CXX" "==" "g++" ]; then export CC=gcc-4.8; fi
   - if [ "$CXX" "==" "g++" ]; then export CXX=g++-4.8; fi
-  - if [ "$CXX" "==" "clang++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-  - if [ "$CXX" "==" "clang++" ]; then sudo add-apt-repository -y "deb http://llvm.org/apt/raring/ llvm-toolchain-raring main"; fi
-  - if [ "$CXX" "==" "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; fi
-  - if [ "$CXX" "==" "clang++" ]; then sudo apt-get update; fi
+  
+  # Install clang++, clang normally is placed in /usr/local/bin which is in PATH before /usr/bin
+  # where clang-3.4 is installed so we need to point to new location
   - if [ "$CXX" "==" "clang++" ]; then sudo apt-get install clang-3.4; fi
-  - if [ "$CXX" "==" "clang++" ]; then /usr/bin/clang --version; fi
-  - if [ "$CXX" "==" "clang++" ]; then whereis clang; fi
-  - if [ "$CXX" "==" "clang++" ]; then which clang; fi
   - if [ "$CXX" "==" "clang++" ]; then export CC=/usr/bin/clang; fi
   - if [ "$CXX" "==" "clang++" ]; then export CXX=/usr/bin/clang++; fi
   - $CC --version
   - $CXX --version
+  
+  # Build project
   - ./get_deps_ubuntu.sh
   - mkdir build
   - cd build
   - cmake ..
 script:
+  # Check code style
   - make lint
+  
+  # Run unit tests
   - make test
+  
+  # Check if everything is documented
   - cd ..
   - bash run_doxygen.sh
