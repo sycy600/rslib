@@ -1,7 +1,7 @@
 project(rslib)
 cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_CXX_FLAGS "-Wall")
+set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
 
 include_directories(.)
 
@@ -13,5 +13,5 @@ add_executable(${testrunner} ${test_src})
 target_link_libraries(${testrunner} gtest gtest_main)
 
 add_custom_target(test COMMAND ${testrunner} DEPENDS ${testrunner})
-add_custom_target(lint COMMAND python ${PROJECT_SOURCE_DIR}/utils/cpplint.py ${PROJECT_SOURCE_DIR}/rslib/* ${PROJECT_SOURCE_DIR}/test/*)
+add_custom_target(lint COMMAND python ${PROJECT_SOURCE_DIR}/utils/cpplint.py ${PROJECT_SOURCE_DIR}/rslib/* ${PROJECT_SOURCE_DIR}/tests/*)
 
