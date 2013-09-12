@@ -76,7 +76,7 @@ class Polynomial {
   /// 3 multiplications and 3 additions.
   /// \param value Value used to evaluated polynomial.
   /// \return Computed polynomial evaluation.
-  T evaluate(const T value) const {
+  T evaluate(const T& value) const {
     unsigned int currentDegree = degree();
     T result = coefficients_[currentDegree];
     for (unsigned int i = 0; i < currentDegree; ++i) {
