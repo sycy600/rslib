@@ -1,6 +1,6 @@
 .. image:: https://secure.travis-ci.org/sycy600/rslib.png
 
-Reed-Solomon code library.
+Reed-Solomon code library. Documentation is reachable at [http://sycy600.github.io/rslib](http://sycy600.github.io/rslib/).
 
 How to build
 ============
