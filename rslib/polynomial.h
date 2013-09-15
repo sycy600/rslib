@@ -6,6 +6,8 @@
 #define RSLIB_POLYNOMIAL_H_
 
 #include <algorithm>
+#include <iterator>
+#include <ostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -20,26 +22,20 @@ class PolynomialException : public std::runtime_error {
      : std::runtime_error(message) {}
 };
 
-/// \brief Returns true if element is zero.
-/// \param element Number to be compared with zero.
-/// \retval true If element is zero.
-/// \retval false If element is not zero.
-bool isZero(int element) {
-  return element == 0;
-}
-
-/// \brief Returns true if element is zero.
-/// \param element Number to be compared with zero.
-/// \retval true If element is zero.
-/// \retval false If element is not zero.
-bool isZero(double element) {
-  return element == 0.0;
-}
+/// \brief Returns zero element for given type.
+template <class T>
+T getZero();
 
 /// \brief Polynomial.
 template <class T>
 class Polynomial {
  public:
+  /// \brief Iterator.
+  typedef typename std::vector<T>::iterator iterator;
+
+  /// \brief Constant iterator.
+  typedef typename std::vector<T>::const_iterator const_iterator;
+
   /// \brief Constructor.
   /// \param coefficients Coefficients.
   explicit Polynomial(const std::vector<T>& coefficients)
@@ -48,6 +44,11 @@ class Polynomial {
       throw PolynomialException("Polynomial cannot be empty");
     }
     cleanZeroes();
+  }
+
+  /// \brief Constructor.
+  Polynomial() {
+    coefficients_ = {getZero<T>()};
   }
 
   /// \brief Return degree of polynomial.
@@ -62,7 +63,18 @@ class Polynomial {
 
   /// \brief Set coefficient at given index.
   void setValue(unsigned int index, const T& value) {
-    coefficients_[index] = value;
+    // If current coefficients container is too small to set new coefficient
+    // then make this polynomial bigger by adding zeroes and new coefficient
+    // as the last coefficient.
+    unsigned int originalDegree = degree();
+    if (index > originalDegree) {
+      for (unsigned int i = 0; i < index - originalDegree - 1; ++i) {
+        coefficients_.push_back(getZero<T>());
+      }
+      coefficients_.push_back(value);
+    } else {
+      coefficients_[index] = value;
+    }
     cleanZeroes();
   }
 
@@ -87,34 +99,132 @@ class Polynomial {
 
   /// \brief Add two polynomials.
   Polynomial<T>& operator+=(const Polynomial<T>& other) {
+    Polynomial<T> result(*this);
     unsigned smallerDegree = std::min(degree(), other.degree());
     // Add coefficients on the common positions.
     for (unsigned int i = 0; i < smallerDegree + 1; ++i) {
-      coefficients_[i] += other.coefficients_[i];
+      result.coefficients_[i] += other.coefficients_[i];
     }
     // If other polynomial is greater then append its coefficients.
     for (unsigned int i = smallerDegree + 1; i < other.degree() + 1; ++i) {
-      coefficients_.push_back(other.coefficients_[i]);
+      result.coefficients_.push_back(other.coefficients_[i]);
     }
-    cleanZeroes();
+    result.cleanZeroes();
+    std::swap(result, *this);
     return *this;
+  }
+
+  /// \brief Subtract two polynomials.
+  Polynomial<T>& operator-=(const Polynomial<T>& other) {
+    Polynomial<T> result(*this);
+    unsigned smallerDegree = std::min(degree(), other.degree());
+    // Subtract coefficients on the common positions.
+    for (unsigned int i = 0; i < smallerDegree + 1; ++i) {
+      result.coefficients_[i] -= other.coefficients_[i];
+    }
+    // If other polynomial is greater then append its negative coefficients.
+    for (unsigned int i = smallerDegree + 1; i < other.degree() + 1; ++i) {
+      result.coefficients_.push_back(-other.coefficients_[i]);
+    }
+    result.cleanZeroes();
+    std::swap(result, *this);
+    return *this;
+  }
+
+  /// \brief Multiply two polynomials.
+  Polynomial<T>& operator*=(const Polynomial<T>& other) {
+    unsigned int thisDegree = degree();
+    unsigned int otherDegree = other.degree();
+    Polynomial<T> result;
+    for (unsigned int i = 0; i < thisDegree + 1; ++i) {
+      for (unsigned int j = 0; j < otherDegree + 1; ++j) {
+        if (i + j > result.degree()) {
+          result.setValue(i + j, getValue(i) * other.getValue(j));
+        } else {
+          result.setValue(i + j,
+                          result.getValue(i + j)
+                          + getValue(i) * other.getValue(j));
+        }
+      }
+    }
+    result.cleanZeroes();
+    std::swap(result, *this);
+    return *this;
+  }
+
+  /// \brief Divide two polynomials.
+  Polynomial<T>& operator /=(const Polynomial<T>& divisor) {
+    Polynomial<T> result(*this);
+    result = divideModulo(*this, divisor).quotient;
+    std::swap(result, *this);
+    return *this;
+  }
+
+  /// \brief Iterator pointing at first element.
+  iterator begin() {
+    return coefficients_.begin();
+  }
+
+  /// \brief Iterator pointing at after last element.
+  iterator end() {
+    return coefficients_.end();
+  }
+
+  /// \brief Constant iterator pointing at first element.
+  const_iterator begin() const {
+    return coefficients_.cbegin();
+  }
+
+  /// \brief Constant iterator pointing at after last element.
+  const_iterator end() const {
+    return coefficients_.cend();
   }
 
  private:
   std::vector<T> coefficients_;
 
+  struct DivisionModuloResult {
+     Polynomial<T> quotient;
+     Polynomial<T> rest;
+  };
+
   // Remove all leading zeroes from polynomial but not the last.
   void cleanZeroes() {
-    while (isZero(coefficients_[degree()]) && degree() > 0) {
+    while ((getZero<T>() == coefficients_[degree()]) && degree() > 0) {
       coefficients_.erase(coefficients_.end() - 1);
     }
   }
+
+  DivisionModuloResult divideModulo(const Polynomial<T>& dividend,
+                                    const Polynomial<T>& divisor) {
+    if (divisor == Polynomial<T>()) {
+      throw PolynomialException("Cannot divide by 0 polynomial");
+    }
+    Polynomial<T> quotient;
+    Polynomial<T> rest = dividend;
+    Polynomial<T> zeroPolynomial = Polynomial<T>();
+    while (rest != zeroPolynomial && rest.degree() >= divisor.degree()) {
+      T result = rest.getValue(rest.degree())
+          / divisor.getValue(divisor.degree());
+      quotient.setValue(rest.degree() - divisor.degree(), result);
+      Polynomial<T> currentShiftedResult;
+      currentShiftedResult.setValue(rest.degree() - divisor.degree(), result);
+      rest -= currentShiftedResult * divisor;
+    }
+    return {quotient, rest};  // NOLINT(readability/braces)
+  }
 };
 
+/// \brief Print polynomial to output stream.
+template <class T>
+inline std::ostream& operator <<(std::ostream& os, const Polynomial<T>& poly) {
+  os << "[";
+  std::copy(poly.begin(), poly.end(), std::ostream_iterator<T>(os, ","));
+  os << "]";
+  return os;
+}
+
 /// \brief Add two polynomials.
-/// \param first First polynomial to add.
-/// \param second Second polynomial to add.
-/// \return Sum of two polynomials.
 template <class T>
 inline Polynomial<T> operator+(const Polynomial<T>& first,
                                const Polynomial<T>& second) {
@@ -123,11 +233,34 @@ inline Polynomial<T> operator+(const Polynomial<T>& first,
   return result;
 }
 
+/// \brief Subtract two polynomials.
+template <class T>
+inline Polynomial<T> operator-(const Polynomial<T>& first,
+                               const Polynomial<T>& second) {
+  Polynomial<T> result(first);
+  result -= second;
+  return result;
+}
+
+/// \brief Multiply two polynomials.
+template <class T>
+inline Polynomial<T> operator*(const Polynomial<T>& first,
+                               const Polynomial<T>& second) {
+  Polynomial<T> result(first);
+  result *= second;
+  return result;
+}
+
+/// \brief Divide two polynomials.
+template <class T>
+inline Polynomial<T> operator/(const Polynomial<T>& first,
+                               const Polynomial<T>& second) {
+  Polynomial<T> result(first);
+  result /= second;
+  return result;
+}
+
 /// \brief Check if two polynomials are equal.
-/// \param first First operand of equality expression.
-/// \param second Second operand of equality expression.
-/// \retval true Polynomials are equal.
-/// \retval false Polynomials are not equal.
 template <class T>
 inline bool operator==(const Polynomial<T>& first,
                        const Polynomial<T>& second) {
@@ -137,7 +270,7 @@ inline bool operator==(const Polynomial<T>& first,
     return false;
   }
   // Then check if values of elements are equal.
-  for (unsigned int i = 0; i < currentDegree; ++i) {
+  for (unsigned int i = 0; i < currentDegree + 1; ++i) {
     if (first.getValue(i) != second.getValue(i)) {
       return false;
     }
@@ -146,10 +279,6 @@ inline bool operator==(const Polynomial<T>& first,
 }
 
 /// \brief Check if two polynomials are not equal.
-/// \param first First operand of equality expression.
-/// \param second Second operand of equality expression.
-/// \retval true Polynomials are not equal.
-/// \retval false Polynomials are equal.
 template <class T>
 inline bool operator!=(const Polynomial<T>& first,
                        const Polynomial<T>& second) {
