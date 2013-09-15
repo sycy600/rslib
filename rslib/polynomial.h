@@ -63,10 +63,12 @@ class Polynomial {
 
   /// \brief Set coefficient at given index.
   void setValue(unsigned int index, const T& value) {
-    // If current coefficients container is too small to write new value
-    // then make it bigger it so it can handle it.
-    if (index > degree()) {
-      for (unsigned int i = 0; i < degree() - index + 1; ++i) {
+    // If current coefficients container is too small to set new coefficient
+    // then make this polynomial bigger by adding zeroes and new coefficient
+    // as the last coefficient.
+    unsigned int originalDegree = degree();
+    if (index > originalDegree) {
+      for (unsigned int i = 0; i < index - originalDegree - 1; ++i) {
         coefficients_.push_back(getZero<T>());
       }
       coefficients_.push_back(value);
