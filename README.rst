@@ -22,7 +22,8 @@ Install project - that will install static library and headers on your system::
 
     sudo make install
 
-Include headers in your program and link against ``librslib``.
+Include headers in your program and link against ``librslib``. To compile the project
+use C++11 standard.
 
 Testing
 =======
