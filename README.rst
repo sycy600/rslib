@@ -28,8 +28,6 @@ use C++11 standard.
 Testing
 =======
 
-To run memcheck tests you need Valgrind.
-
 Unit tests are placed in directory ``tests``.
 
 The pattern for test filename is ``*_tests.cc``.
@@ -44,7 +42,9 @@ Run ``cpplint.py``::
     cd build
     make lint
 
-Check for memory leaks with Valgrind (run Valgrind on unit
+To run memory check tests you need Valgrind.
+
+Check for memory leaks with Valgrind (it runs Valgrind on unit
 test runner process)::
 
     cd build
