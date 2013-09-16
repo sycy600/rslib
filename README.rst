@@ -5,10 +5,6 @@ Reed-Solomon code library. Project page is reachable at http://sycy600.github.io
 How to build
 ============
 
-Get dependencies (script tailored for Ubuntu)::
-
-    ./get_deps_ubuntu.sh
-
 Create build directory::
 
     mkdir build
@@ -18,8 +14,20 @@ Run ``cmake``::
 
     cmake ..
 
+Build project::
+
+    make
+
+Install project - that will install static library and headers on your system::
+
+    sudo make install
+
+Include headers in your program and link against ``librslib``.
+
 Testing
 =======
+
+To run memcheck tests you need Valgrind.
 
 Unit tests are placed in directory ``tests``.
 
@@ -47,6 +55,8 @@ Build project and do all checks (all-in-one)::
 
 Documentation
 =============
+
+To build documentation you need Doxygen.
 
 Generate documentation and check if there is some not
 documented code::
