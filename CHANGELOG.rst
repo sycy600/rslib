@@ -12,3 +12,4 @@ Unreleased
 * Add: Valgrind support
 * Add: Addition, subtraction, multiplication and division of polynomials
 * Add: Install option
+* Add: Modulo operation for polynomials

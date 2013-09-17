@@ -191,6 +191,24 @@ TEST(Polynomial, DivisionOneElementPolynomialsWithFloatingPointNumbers) {
   ASSERT_EQ(first / second, rslib::Polynomial<double>({2.25}));
 }
 
+TEST(Polynomial, Modulo) {
+  rslib::Polynomial<int> first({2, 3, 2});
+  rslib::Polynomial<int> second({3, 1});
+  ASSERT_EQ(first % second, rslib::Polynomial<int>({11}));
+}
+
+TEST(Polynomial, ModuloSmallerPolynomialByBiggerPolynomial) {
+  rslib::Polynomial<int> first({3, 1});
+  rslib::Polynomial<int> second({2, 3, 2});
+  ASSERT_EQ(first % second, rslib::Polynomial<int>({3, 1}));
+}
+
+TEST(Polynomial, ModuloZeroPolynomialByPolynomial) {
+  rslib::Polynomial<int> first({0});
+  rslib::Polynomial<int> second({2, 3, 2});
+  ASSERT_EQ(first % second, rslib::Polynomial<int>({0}));
+}
+
 TEST(Polynomial, PrintPolynomial) {
   rslib::Polynomial<int> p({3, 4, 5});
   std::ostringstream iss;
