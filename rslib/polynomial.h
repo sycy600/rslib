@@ -155,7 +155,15 @@ class Polynomial {
   /// \brief Divide two polynomials.
   Polynomial<T>& operator /=(const Polynomial<T>& divisor) {
     Polynomial<T> result(*this);
-    result = divideModulo(*this, divisor).quotient;
+    result = divideModulo(*this, divisor).quotient_;
+    std::swap(result, *this);
+    return *this;
+  }
+
+  /// \brief Get rest from polynomial division.
+  Polynomial<T>& operator %=(const Polynomial<T>& divisor) {
+    Polynomial<T> result(*this);
+    result = divideModulo(*this, divisor).rest_;
     std::swap(result, *this);
     return *this;
   }
@@ -184,8 +192,8 @@ class Polynomial {
   std::vector<T> coefficients_;
 
   struct DivisionModuloResult {
-     Polynomial<T> quotient;
-     Polynomial<T> rest;
+     Polynomial<T> quotient_;
+     Polynomial<T> rest_;
   };
 
   // Remove all leading zeroes from polynomial but not the last.
@@ -257,6 +265,15 @@ inline Polynomial<T> operator/(const Polynomial<T>& first,
                                const Polynomial<T>& second) {
   Polynomial<T> result(first);
   result /= second;
+  return result;
+}
+
+/// \brief Get rest from polynomial division.
+template <class T>
+inline Polynomial<T> operator%(const Polynomial<T>& first,
+                               const Polynomial<T>& second) {
+  Polynomial<T> result(first);
+  result %= second;
   return result;
 }
 
