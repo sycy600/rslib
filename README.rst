@@ -5,7 +5,7 @@ Reed-Solomon code library. Project page is reachable at http://sycy600.github.io
 Features
 ========
 
-* polynomial addition, subtraction, multiplication, division and modulo operation
+* polynomial evaluation, addition, subtraction, multiplication, division and modulo operation
 
 How to build
 ============
