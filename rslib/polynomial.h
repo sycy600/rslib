@@ -198,7 +198,8 @@ class Polynomial {
 
   // Remove all leading zeroes from polynomial but not the last.
   void cleanZeroes() {
-    while ((getZero<T>() == coefficients_[degree()]) && degree() > 0) {
+    T zero = getZero<T>();
+    while ((zero == coefficients_[degree()]) && degree() > 0) {
       coefficients_.erase(coefficients_.end() - 1);
     }
   }
