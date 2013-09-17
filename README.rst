@@ -2,6 +2,11 @@
 
 Reed-Solomon code library. Project page is reachable at http://sycy600.github.io/rslib.
 
+Features
+========
+
+* polynomial addition, subtraction, multiplication, division and modulo operation
+
 How to build
 ============
 
