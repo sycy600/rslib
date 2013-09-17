@@ -43,12 +43,10 @@ The pattern for test filename is ``*_tests.cc``.
 
 Run unit tests::
 
-    cd build
     make test
 
 Run ``cpplint.py``::
 
-    cd build
     make lint
 
 To run memory check tests you need Valgrind.
@@ -56,7 +54,6 @@ To run memory check tests you need Valgrind.
 Check for memory leaks with Valgrind (it runs Valgrind on unit
 test runner process)::
 
-    cd build
     make memcheck
 
 Build project and do all checks (all-in-one)::
@@ -71,5 +68,4 @@ To build documentation you need Doxygen.
 Generate documentation and check if there is some not
 documented code::
 
-    cd build
     make doc
