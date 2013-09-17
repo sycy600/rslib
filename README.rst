@@ -71,4 +71,5 @@ To build documentation you need Doxygen.
 Generate documentation and check if there is some not
 documented code::
 
-    ./run_doxygen.sh
+    cd build
+    make doc
