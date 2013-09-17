@@ -10,6 +10,10 @@ Features
 How to build
 ============
 
+Clone repository::
+
+    git clone https://github.com/sycy600/rslib.git
+
 Create build directory::
 
     mkdir build
@@ -17,7 +21,7 @@ Create build directory::
 
 Run ``cmake``::
 
-    cmake ..
+    cmake ../rslib
 
 Build project::
 
