@@ -31,7 +31,7 @@ TEST(Polynomial, OnlyZeroCoeffs) {
 
 TEST(Polynomial, CreatingPolynomialWithoutGivingCoefficient) {
   // 0 degree polynomial with single 0 value is created.
-  rslib::Polynomial<int> p;
+  rslib::Polynomial<int> p({0});
   ASSERT_EQ(p.degree(), 0u);
   ASSERT_EQ(p.getValue(0), 0);
 }
@@ -131,13 +131,13 @@ TEST(Polynomial, CheckEqualIfEqual) {
   ASSERT_FALSE(first != second);
 }
 
-TEST(Polynomial, MultiplicationWithFirstPolyBigger) {
+TEST(Polynomial, MultiplicationWithFirstPolynomialBigger) {
   rslib::Polynomial<int> first({5, 0, 0, 2, 3, 1});
   rslib::Polynomial<int> second({-3, 1});
   ASSERT_EQ(first * second, rslib::Polynomial<int>({-15, 5, 0, -6, -7, 0, 1}));
 }
 
-TEST(Polynomial, MultiplicationWithSecondPolyBigger) {
+TEST(Polynomial, MultiplicationWithSecondPolynomialBigger) {
   rslib::Polynomial<int> first({-3, 1});
   rslib::Polynomial<int> second({5, 0, 0, 2, 3, 1});
   ASSERT_EQ(first * second, rslib::Polynomial<int>({-15, 5, 0, -6, -7, 0, 1}));

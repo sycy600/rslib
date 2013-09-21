@@ -5,13 +5,13 @@
 namespace rslib {
 
 template <>
-int getZero() { return 0; }
+int getZero(int elem) { return 0; }
 
 template <>
-unsigned int getZero() { return 0u; }
+unsigned int getZero(unsigned int elem) { return 0u; }
 
 template <>
-double getZero() { return 0.0; }
+double getZero(double elem) { return 0.0; }
 
 }  // namespace rslib
 
