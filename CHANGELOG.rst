@@ -13,3 +13,4 @@ Unreleased
 * Add: Addition, subtraction, multiplication and division of polynomials
 * Add: Install option
 * Add: Modulo operation for polynomials
+* Add: Simple and extended finite field basic operations
