@@ -24,7 +24,7 @@ class PolynomialException : public std::runtime_error {
 
 /// \brief Returns zero element for given type.
 template <class T>
-T getZero();
+T getZero(T elem);
 
 /// \brief Polynomial.
 template <class T>
@@ -46,11 +46,6 @@ class Polynomial {
     cleanZeroes();
   }
 
-  /// \brief Constructor.
-  Polynomial() {
-    coefficients_ = {getZero<T>()};
-  }
-
   /// \brief Return degree of polynomial.
   unsigned int degree() const {
     return coefficients_.size() - 1;
@@ -69,7 +64,7 @@ class Polynomial {
     unsigned int originalDegree = degree();
     if (index > originalDegree) {
       for (unsigned int i = 0; i < index - originalDegree - 1; ++i) {
-        coefficients_.push_back(getZero<T>());
+        coefficients_.push_back(getZero<T>(getValue(0)));
       }
       coefficients_.push_back(value);
     } else {
@@ -135,7 +130,7 @@ class Polynomial {
   Polynomial<T>& operator*=(const Polynomial<T>& other) {
     unsigned int thisDegree = degree();
     unsigned int otherDegree = other.degree();
-    Polynomial<T> result;
+    Polynomial<T> result({getZero<T>(other.getValue(0))});
     for (unsigned int i = 0; i < thisDegree + 1; ++i) {
       for (unsigned int j = 0; j < otherDegree + 1; ++j) {
         if (i + j > result.degree()) {
@@ -198,7 +193,7 @@ class Polynomial {
 
   // Remove all leading zeroes from polynomial but not the last.
   void cleanZeroes() {
-    T zero = getZero<T>();
+    T zero = getZero<T>(getValue(0));
     while ((zero == coefficients_[degree()]) && degree() > 0) {
       coefficients_.erase(coefficients_.end() - 1);
     }
@@ -206,17 +201,17 @@ class Polynomial {
 
   DivisionModuloResult divideModulo(const Polynomial<T>& dividend,
                                     const Polynomial<T>& divisor) {
-    if (divisor == Polynomial<T>()) {
+    Polynomial<T> zeroPolynomial({getZero<T>(dividend.getValue(0))});
+    if (divisor == zeroPolynomial) {
       throw PolynomialException("Cannot divide by 0 polynomial");
     }
-    Polynomial<T> quotient;
+    Polynomial<T> quotient = zeroPolynomial;
     Polynomial<T> rest = dividend;
-    Polynomial<T> zeroPolynomial = Polynomial<T>();
     while (rest != zeroPolynomial && rest.degree() >= divisor.degree()) {
       T result = rest.getValue(rest.degree())
           / divisor.getValue(divisor.degree());
       quotient.setValue(rest.degree() - divisor.degree(), result);
-      Polynomial<T> currentShiftedResult;
+      Polynomial<T> currentShiftedResult = zeroPolynomial;
       currentShiftedResult.setValue(rest.degree() - divisor.degree(), result);
       rest -= currentShiftedResult * divisor;
     }
