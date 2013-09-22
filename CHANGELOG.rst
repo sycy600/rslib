@@ -14,3 +14,4 @@ Unreleased
 * Add: Install option
 * Add: Modulo operation for polynomials
 * Add: Simple and extended finite field basic operations
+* Add: Simple finite field basic arithmetic

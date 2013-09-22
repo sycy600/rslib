@@ -14,6 +14,8 @@ namespace rslib {
 template <class T>
 T getZero(T elem);
 
+class SimpleField;
+
 /// \brief Simple field element exception.
 class SimpleFieldElementException : public std::runtime_error {
  public:
@@ -29,10 +31,7 @@ class SimpleFieldElement {
   /// \param value Value of simple field element. This value is modulo'ed
   /// by field characteristic so it's always in the field.
   /// \param simpleField Field in which element is placed.
-  SimpleFieldElement(unsigned int value, const SimpleField& simpleField)
-    : simpleField_(simpleField) {
-    value_ = value % simpleField.getCharacteristic();
-  }
+  SimpleFieldElement(unsigned int value, const SimpleField& simpleField);
 
   /// \brief Get value.
   unsigned int getValue() const {
@@ -40,15 +39,25 @@ class SimpleFieldElement {
   }
 
   /// \brief Assignment operator.
-  SimpleFieldElement& operator=(const SimpleFieldElement& other) {
-    // Assigned element must be in the same field.
-    if (getField() != other.getField()) {
-      throw SimpleFieldElementException(
-            "Assignment to field element from different field");
-    }
-    value_ = other.getValue();
-    return *this;
-  }
+  SimpleFieldElement& operator=(const SimpleFieldElement& other);
+
+  /// \brief Addition operator.
+  SimpleFieldElement& operator+=(const SimpleFieldElement& other);
+
+  /// \brief Additive inverse operator.
+  SimpleFieldElement operator-() const;
+
+  /// \brief Subtraction operator.
+  SimpleFieldElement& operator-=(const SimpleFieldElement& other);
+
+  /// \brief Multiplication operator.
+  SimpleFieldElement& operator*=(const SimpleFieldElement& other);
+
+  /// \brief Multiplicative inverse.
+  SimpleFieldElement multiplicativeInverse() const;
+
+  /// \brief Division oeprator.
+  SimpleFieldElement& operator/=(const SimpleFieldElement& other);
 
   /// \brief Get field.
   const SimpleField& getField() const {
@@ -58,23 +67,36 @@ class SimpleFieldElement {
  private:
   unsigned int value_;
   const SimpleField& simpleField_;
+
+  // Check if current object and other objects are in the same field.
+  // If they are not then throw exception.
+  void checkIfTheSameField(const SimpleFieldElement& other) const;
 };
 
 /// \brief Check if two simple field elements are equal.
-inline bool operator==(const SimpleFieldElement& first,
-                       const SimpleFieldElement& second) {
-  if (first.getField() != second.getField()) {
-    throw SimpleFieldElementException(
-          "Assignment to field element from different field");
-  }
-  return first.getValue() == second.getValue();
-}
+bool operator==(const SimpleFieldElement& first,
+                const SimpleFieldElement& second);
 
 /// \brief Check if two simple field elements are not equal.
-inline bool operator!=(const SimpleFieldElement& first,
-                       const SimpleFieldElement& second) {
-  return !(first == second);
-}
+bool operator!=(const SimpleFieldElement& first,
+                const SimpleFieldElement& second);
+
+/// \brief Add two simple field elements.
+SimpleFieldElement operator+(const SimpleFieldElement& first,
+                             const SimpleFieldElement& second);
+
+/// \brief Subtract one simple field element from other simple field element.
+SimpleFieldElement operator-(const SimpleFieldElement& first,
+                             const SimpleFieldElement& second);
+
+/// \brief Multiply two simple field elements.
+SimpleFieldElement operator*(const SimpleFieldElement& first,
+                             const SimpleFieldElement& second);
+
+/// \brief Divide one simple field element by other simple field element.
+SimpleFieldElement operator/(const SimpleFieldElement& first,
+                             const SimpleFieldElement& second);
+
 
 }  // namespace rslib
 

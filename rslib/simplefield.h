@@ -5,7 +5,11 @@
 #ifndef RSLIB_SIMPLEFIELD_H_
 #define RSLIB_SIMPLEFIELD_H_
 
+#include <rslib/simplefieldelement.h>
+
 namespace rslib {
+
+class SimpleFieldElement;
 
 /// \brief Simple finite field.
 class SimpleField {
@@ -21,6 +25,19 @@ class SimpleField {
 
  private:
   const unsigned int characteristic_;
+
+  SimpleFieldElement add(const SimpleFieldElement& first,
+                         const SimpleFieldElement& second) const;
+
+  SimpleFieldElement additiveInverse(const SimpleFieldElement& element) const;
+
+  SimpleFieldElement multiply(const SimpleFieldElement& first,
+                              const SimpleFieldElement& second) const;
+
+  SimpleFieldElement multiplicativeInverse(
+      const SimpleFieldElement& element) const;
+
+  friend class SimpleFieldElement;
 };
 
 /// \brief Check if two simple fields are equal.
