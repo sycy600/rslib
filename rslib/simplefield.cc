@@ -14,8 +14,7 @@ SimpleFieldElement SimpleField::add(const SimpleFieldElement& first,
 
 SimpleFieldElement SimpleField::additiveInverse(
     const SimpleFieldElement& element) const {
-  unsigned int result = (getCharacteristic() - element.getValue())
-      % getCharacteristic();
+  unsigned int result = getCharacteristic() - element.getValue();
   return SimpleFieldElement(result, *this);
 }
 

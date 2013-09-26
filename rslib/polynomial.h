@@ -221,7 +221,7 @@ class Polynomial {
 
 /// \brief Print polynomial to output stream.
 template <class T>
-inline std::ostream& operator <<(std::ostream& os, const Polynomial<T>& poly) {
+inline std::ostream& operator<<(std::ostream& os, const Polynomial<T>& poly) {
   os << "[";
   std::copy(poly.begin(), poly.end(), std::ostream_iterator<T>(os, ","));
   os << "]";

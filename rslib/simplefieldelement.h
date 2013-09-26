@@ -6,6 +6,7 @@
 #define RSLIB_SIMPLEFIELDELEMENT_H_
 
 #include <rslib/simplefield.h>
+#include <ostream>
 #include <stdexcept>
 #include <string>
 
@@ -97,6 +98,12 @@ SimpleFieldElement operator*(const SimpleFieldElement& first,
 SimpleFieldElement operator/(const SimpleFieldElement& first,
                              const SimpleFieldElement& second);
 
+/// \brief Print simple field element to output stream.
+inline std::ostream& operator<<(std::ostream& os,  // NOLINT(runtime/references)
+                                const SimpleFieldElement& element) {
+  os << element.getValue();
+  return os;
+}
 
 }  // namespace rslib
 

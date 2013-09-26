@@ -4,6 +4,7 @@
 #include <rslib/simplefield.h>
 #include <rslib/simplefieldelement.h>
 #include <gtest/gtest.h>
+#include <sstream>
 
 TEST(SimpleFieldElement, ElementWithValueGreaterThanCharacteristic) {
   rslib::SimpleField sf(5);
@@ -94,5 +95,13 @@ TEST(SimpleFieldElement, Divide) {
   rslib::SimpleFieldElement first(1, sf);
   rslib::SimpleFieldElement second(2, sf);
   ASSERT_EQ(first / second, rslib::SimpleFieldElement(3, sf));
+}
+
+TEST(SimpleFieldElement, Print) {
+  rslib::SimpleField sf(5);
+  rslib::SimpleFieldElement first(3, sf);
+  std::ostringstream iss;
+  iss << first;
+  ASSERT_EQ(iss.str(), "3");
 }
 
