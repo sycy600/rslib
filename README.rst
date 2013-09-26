@@ -69,3 +69,5 @@ Generate documentation and check if there is some not
 documented code::
 
     make doc
+    
+Project page is based on GitHub Pages and it is placed on branch ``gh-pages``.
