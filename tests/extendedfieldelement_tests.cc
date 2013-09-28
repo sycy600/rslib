@@ -79,7 +79,7 @@ TEST_F(ExtendedFieldElementFixtureGF8, AssignmentToElementFromDifferentField) {
   ASSERT_THROW((first = second), rslib::ExtendedFieldElementException);
 }
 
-TEST_F(ExtendedFieldElementFixtureGF8, PolynomialRepresentationGF2x) {
+TEST_F(ExtendedFieldElementFixtureGF8, PolynomialRepresentation) {
   // 0 = 0
   ASSERT_EQ(rslib::ExtendedFieldElement(0, ef).getPolynomialRepresentation(),
             rslib::Polynomial<rslib::SimpleFieldElement>(
@@ -137,7 +137,7 @@ TEST_F(ExtendedFieldElementFixtureGF8, PolynomialRepresentationGF2x) {
                rslib::SimpleFieldElement(1, sf)}));
 }
 
-TEST_F(ExtendedFieldElementFixtureGF9, PolynomialRepresentationGF3x) {
+TEST_F(ExtendedFieldElementFixtureGF9, PolynomialRepresentationx) {
   // 0 = 0
   ASSERT_EQ(rslib::ExtendedFieldElement(0, ef).getPolynomialRepresentation(),
             rslib::Polynomial<rslib::SimpleFieldElement>(
