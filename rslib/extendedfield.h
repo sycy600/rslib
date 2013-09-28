@@ -39,7 +39,7 @@ class ExtendedField {
 
   /// \brief Zech Logarithm class.
   class ZechLogarithm {
-  public:
+   public:
     /// \brief Constructor.
     explicit ZechLogarithm(unsigned int value);
 
@@ -49,7 +49,7 @@ class ExtendedField {
     /// \brief Get value.
     unsigned int getValue() const;
 
-  private:
+   private:
     unsigned int value_;
   };
 

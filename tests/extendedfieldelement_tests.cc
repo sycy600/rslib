@@ -15,10 +15,10 @@ class ExtendedFieldElementFixtureGF8 : public ::testing::Test {
   rslib::SimpleField sf = rslib::SimpleField(2);
   rslib::Polynomial<rslib::SimpleFieldElement>
       generator = rslib::Polynomial<rslib::SimpleFieldElement>({
-                 rslib::SimpleFieldElement(1, sf),
-                 rslib::SimpleFieldElement(1, sf),
-                 rslib::SimpleFieldElement(0, sf),
-                 rslib::SimpleFieldElement(1, sf)});
+                  rslib::SimpleFieldElement(1, sf),
+                  rslib::SimpleFieldElement(1, sf),
+                  rslib::SimpleFieldElement(0, sf),
+                  rslib::SimpleFieldElement(1, sf)});
 
   // field GF(2^3) = GF(8)
   rslib::ExtendedField ef = rslib::ExtendedField(generator);
@@ -30,9 +30,9 @@ class ExtendedFieldElementFixtureGF9 : public ::testing::Test {
   rslib::SimpleField sf = rslib::SimpleField(3);
   rslib::Polynomial<rslib::SimpleFieldElement>
       generator = rslib::Polynomial<rslib::SimpleFieldElement>({
-                 rslib::SimpleFieldElement(2, sf),
-                 rslib::SimpleFieldElement(1, sf),
-                 rslib::SimpleFieldElement(1, sf)});
+                  rslib::SimpleFieldElement(2, sf),
+                  rslib::SimpleFieldElement(1, sf),
+                  rslib::SimpleFieldElement(1, sf)});
 
   // field GF(3^2) = GF(9)
   rslib::ExtendedField ef = rslib::ExtendedField(generator);
