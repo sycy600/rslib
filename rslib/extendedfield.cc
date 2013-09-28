@@ -49,27 +49,27 @@ void ExtendedField::createAdditionTable() {
   // This algorithm is described in "A Method for
   // Computing Addition Tables in GF(p^n)" by Kyoki Imamura.
 
-  // Create polynomials N which coefficients are placed in integer field
+  // Create polynomials N which coefficients are placed in integer set
   // basing on coefficients in GF(p).
   std::vector<unsigned int> NX;
-  std::vector<Polynomial<unsigned int>> elementsInIntegerField;
-  for (const Polynomial<SimpleFieldElement>& elementInIntegerField
+  std::vector<Polynomial<unsigned int>> elementsInIntegerSet;
+  for (const Polynomial<SimpleFieldElement>& elementInIntegerSet
       : polynomialRepresentation_) {
     std::vector<unsigned int> coefficients;
     for (const SimpleFieldElement& coefficient
-        : elementInIntegerField) {
+        : elementInIntegerSet) {
       coefficients.push_back(coefficient.getValue());
     }
-    elementsInIntegerField.push_back(
+    elementsInIntegerSet.push_back(
           Polynomial<unsigned int>(coefficients));
   }
 
-  // For each polynomial in integer field compute N(x)
-  for (const Polynomial<unsigned int>& p : elementsInIntegerField) {
+  // For each polynomial in integer set compute N(x)
+  for (const Polynomial<unsigned int>& p : elementsInIntegerSet) {
     NX.push_back(p.evaluate(characteristic_));
   }
 
-  // For each polynomial i in integer field compute N(Z(x)) so that
+  // For each polynomial i in integer set compute N(Z(x)) so that
   // N(Z(x)) = N(x) - p + 1 if N(x) - p + 1 mod p = 0
   // else N(Z(x)) = N(x) + 1
   std::vector<unsigned int> NZX;
