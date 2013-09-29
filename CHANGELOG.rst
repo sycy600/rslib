@@ -16,3 +16,4 @@ Unreleased
 * Add: Simple and extended finite field basic operations
 * Add: Simple finite field basic arithmetic
 * Add: Creation of extended finite fields
+* Add: Extended finite field basic arithmetic

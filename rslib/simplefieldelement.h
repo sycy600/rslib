@@ -57,7 +57,7 @@ class SimpleFieldElement {
   /// \brief Multiplicative inverse.
   SimpleFieldElement multiplicativeInverse() const;
 
-  /// \brief Division oeprator.
+  /// \brief Division operator.
   SimpleFieldElement& operator/=(const SimpleFieldElement& other);
 
   /// \brief Get field.

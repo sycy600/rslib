@@ -5,11 +5,15 @@
 #ifndef RSLIB_EXTENDEDFIELD_H_
 #define RSLIB_EXTENDEDFIELD_H_
 
+#include <rslib/extendedfieldelement.h>
 #include <rslib/polynomial.h>
 #include <rslib/simplefieldelement.h>
+#include <rslib/zechlogarithm.h>
 #include <vector>
 
 namespace rslib {
+
+class ExtendedFieldElement;
 
 /// \brief Extended finite field.
 class ExtendedField {
@@ -37,22 +41,6 @@ class ExtendedField {
     return size_;
   }
 
-  /// \brief Zech Logarithm class.
-  class ZechLogarithm {
-   public:
-    /// \brief Constructor.
-    explicit ZechLogarithm(unsigned int value);
-
-    /// \brief Check if Zech Logarithm equals to minus infinity.
-    bool isMinusInfinity() const;
-
-    /// \brief Get value.
-    unsigned int getValue() const;
-
-   private:
-    unsigned int value_;
-  };
-
  private:
   const Polynomial<SimpleFieldElement> generator_;
   const unsigned int characteristic_;
@@ -67,6 +55,18 @@ class ExtendedField {
   void createPolynomialRepresentation();
 
   void createAdditionTable();
+
+  ExtendedFieldElement add(const ExtendedFieldElement& first,
+                           const ExtendedFieldElement& second) const;
+
+  ExtendedFieldElement additiveInverse(
+      const ExtendedFieldElement& element) const;
+
+  ExtendedFieldElement multiply(const ExtendedFieldElement& first,
+                                const ExtendedFieldElement& second) const;
+
+  ExtendedFieldElement multiplicativeInverse(
+      const ExtendedFieldElement& element) const;
 };
 
 /// \brief Check if two extended fields are equal.
@@ -79,30 +79,6 @@ inline bool operator==(const ExtendedField& first,
 inline bool operator!=(const ExtendedField& first,
                        const ExtendedField& second) {
   return !(first == second);
-}
-
-/// \brief Check if two Zech logarithms are equal.
-inline bool operator==(const ExtendedField::ZechLogarithm& first,
-                       const ExtendedField::ZechLogarithm& second) {
-  return first.getValue() == second.getValue();
-}
-
-/// \brief Check if two Zech logarithms are not equal.
-inline bool operator!=(const ExtendedField::ZechLogarithm& first,
-                       const ExtendedField::ZechLogarithm& second) {
-  return !(first == second);
-}
-
-/// \brief Print Zech logarithm to output stream.
-inline std::ostream& operator<<(
-    std::ostream& os,  // NOLINT(runtime/references)
-    const ExtendedField::ZechLogarithm&zechLogarithm) {
-  if (zechLogarithm.isMinusInfinity()) {
-    os << "-INF";
-  } else {
-    os << zechLogarithm.getValue();
-  }
-  return os;
 }
 
 }  // namespace rslib
