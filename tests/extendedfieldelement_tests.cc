@@ -253,8 +253,15 @@ TEST_F(ExtendedFieldElementFixtureGF8, Print) {
   ASSERT_EQ(iss4.str(), "A^2");
 }
 
-TEST_F(ExtendedFieldElementFixtureGF8, Add) {
+TEST_F(ExtendedFieldElementFixtureGF8, AddFirstArgumentBigger) {
   // A^3 = A + 1 in GF(8)
+  rslib::ExtendedFieldElement first(2, ef);
+  rslib::ExtendedFieldElement second(1, ef);
+  ASSERT_EQ(first + second, rslib::ExtendedFieldElement(4, ef));
+}
+
+TEST_F(ExtendedFieldElementFixtureGF8, AddSecondArgumentBigger) {
+  // A^3 = 1 + A in GF(8)
   rslib::ExtendedFieldElement first(1, ef);
   rslib::ExtendedFieldElement second(2, ef);
   ASSERT_EQ(first + second, rslib::ExtendedFieldElement(4, ef));
