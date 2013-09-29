@@ -6,6 +6,8 @@
 #define RSLIB_EXTENDEDFIELDELEMENT_H_
 
 #include <rslib/extendedfield.h>
+#include <rslib/polynomial.h>
+#include <rslib/simplefieldelement.h>
 #include <stdexcept>
 #include <string>
 
@@ -55,6 +57,16 @@ class ExtendedFieldElement {
     return extendedField_;
   }
 
+  /// \brief Get polynomial representation.
+  Polynomial<SimpleFieldElement> getPolynomialRepresentation() const {
+    return extendedField_.polynomialRepresentation_[value_];
+  }
+
+  /// \brief Get Zech logarithm.
+  ExtendedField::ZechLogarithm getZechLogarithm() const {
+    return extendedField_.zechLogarithms_[value_];
+  }
+
  private:
   unsigned int value_;
   const ExtendedField& extendedField_;
@@ -74,6 +86,21 @@ inline bool operator==(const ExtendedFieldElement& first,
 inline bool operator!=(const ExtendedFieldElement& first,
                        const ExtendedFieldElement& second) {
   return !(first == second);
+}
+
+/// \brief Print extended field element to output stream.
+inline std::ostream& operator<<(
+    std::ostream& os,  // NOLINT(runtime/references)
+    const ExtendedFieldElement& element) {
+  unsigned int value = element.getValue();
+  if (value <= 1) {
+    os << value;
+  } else if (value == 2) {
+    os << "A";
+  } else {
+    os << "A^" << (value - 1);
+  }
+  return os;
 }
 
 }  // namespace rslib
