@@ -8,10 +8,13 @@
 #include <rslib/extendedfield.h>
 #include <rslib/polynomial.h>
 #include <rslib/simplefieldelement.h>
+#include <rslib/zechlogarithm.h>
 #include <stdexcept>
 #include <string>
 
 namespace rslib {
+
+class ExtendedField;
 
 template <class T>
 T getZero(T elem);
@@ -33,8 +36,7 @@ class ExtendedFieldElement {
   /// element 1 is of value 1, element alpha is of value 2 etc.
   /// \param extendedField Extended field in which element is placed.
   ExtendedFieldElement(unsigned int value,
-                       const ExtendedField& extendedField)
-    : value_(value), extendedField_(extendedField) { }
+                       const ExtendedField& extendedField);
 
   /// \brief Get value.
   unsigned int getValue() const {
@@ -42,51 +44,67 @@ class ExtendedFieldElement {
   }
 
   /// \brief Assignment operator.
-  ExtendedFieldElement& operator=(const ExtendedFieldElement& other) {
-    // Assigned element must be in the same field.
-    if (getField() != other.getField()) {
-      throw ExtendedFieldElementException(
-            "Assignment to field element from different field");
-    }
-    value_ = other.getValue();
-    return *this;
-  }
+  ExtendedFieldElement& operator=(const ExtendedFieldElement& other);
 
   /// \brief Get field.
-  const ExtendedField& getField() const {
-    return extendedField_;
-  }
+  const ExtendedField& getField() const;
 
   /// \brief Get polynomial representation.
-  Polynomial<SimpleFieldElement> getPolynomialRepresentation() const {
-    return extendedField_.polynomialRepresentation_[value_];
-  }
+  Polynomial<SimpleFieldElement> getPolynomialRepresentation() const;
 
   /// \brief Get Zech logarithm.
-  ExtendedField::ZechLogarithm getZechLogarithm() const {
-    return extendedField_.zechLogarithms_[value_];
-  }
+  ZechLogarithm getZechLogarithm() const;
+
+  /// \brief Addition operator.
+  ExtendedFieldElement& operator+=(const ExtendedFieldElement& other);
+
+  /// \brief Additive inverse operator.
+  ExtendedFieldElement operator-() const;
+
+  /// \brief Subtraction operator.
+  ExtendedFieldElement& operator-=(const ExtendedFieldElement& other);
+
+  /// \brief Multiplication operator.
+  ExtendedFieldElement& operator*=(const ExtendedFieldElement& other);
+
+  /// \brief Multiplicative inverse.
+  ExtendedFieldElement multiplicativeInverse() const;
+
+  /// \brief Division operator.
+  ExtendedFieldElement& operator/=(const ExtendedFieldElement& other);
 
  private:
   unsigned int value_;
   const ExtendedField& extendedField_;
+
+  void checkIfTheSameField(const ExtendedFieldElement& other) const;
 };
 
 /// \brief Check if two extended field elements are equal.
-inline bool operator==(const ExtendedFieldElement& first,
-                       const ExtendedFieldElement& second) {
-  if (first.getField() != second.getField()) {
-    throw ExtendedFieldElementException(
-          "Elements must be placed in the same extended field");
-  }
-  return first.getValue() == second.getValue();
-}
+bool operator==(const ExtendedFieldElement& first,
+                const ExtendedFieldElement& second);
 
 /// \brief Check if two extended field elements are not equal.
-inline bool operator!=(const ExtendedFieldElement& first,
-                       const ExtendedFieldElement& second) {
-  return !(first == second);
-}
+bool operator!=(const ExtendedFieldElement& first,
+                const ExtendedFieldElement& second);
+
+/// \brief Add two extended field elements.
+ExtendedFieldElement operator+(const ExtendedFieldElement& first,
+                               const ExtendedFieldElement& second);
+
+/// \brief Subtract one extended field element from other extended
+///        field element.
+ExtendedFieldElement operator-(const ExtendedFieldElement& first,
+                               const ExtendedFieldElement& second);
+
+/// \brief Multiply two extended field elements.
+ExtendedFieldElement operator*(const ExtendedFieldElement& first,
+                               const ExtendedFieldElement& second);
+
+/// \brief Divide one extended field element by other extended
+///        field element.
+ExtendedFieldElement operator/(const ExtendedFieldElement& first,
+                               const ExtendedFieldElement& second);
 
 /// \brief Print extended field element to output stream.
 inline std::ostream& operator<<(

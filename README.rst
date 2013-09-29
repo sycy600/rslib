@@ -7,6 +7,7 @@ Features
 
 * polynomial evaluation, addition, subtraction, multiplication, division and modulo operation
 * simple Galois field elements addition, subtraction, multiplication, division, additive and multiplicative inverse computation
+* extended Galois field elements addition, subtraction, multiplication, division, additive and multiplicative inverse computation
 
 How to build
 ============
