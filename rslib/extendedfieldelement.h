@@ -93,10 +93,8 @@ inline std::ostream& operator<<(
     std::ostream& os,  // NOLINT(runtime/references)
     const ExtendedFieldElement& element) {
   unsigned int value = element.getValue();
-  if (value == 0) {
-    os << 0;
-  } else if (value == 1) {
-    os << 1;
+  if (value <= 1) {
+    os << value;
   } else if (value == 2) {
     os << "A";
   } else {
