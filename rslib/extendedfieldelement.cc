@@ -31,11 +31,11 @@ const ExtendedField& ExtendedFieldElement::getField() const {
 
 Polynomial<SimpleFieldElement>
 ExtendedFieldElement::getPolynomialRepresentation() const {
-  return extendedField_.polynomialRepresentation_[value_];
+  return getPolynomialRepresentationFromField(extendedField_, value_);
 }
 
 ZechLogarithm rslib::ExtendedFieldElement::getZechLogarithm() const {
-  return extendedField_.zechLogarithms_[value_];
+  return getZechLogarithmFromField(extendedField_, value_);
 }
 
 ExtendedFieldElement& ExtendedFieldElement::operator+=(
@@ -50,12 +50,14 @@ ExtendedFieldElement& ExtendedFieldElement::operator+=(
   } else if (getValue() > other.getValue()) {
     value_ = (
         other.getValue() +
-        getField().zechLogarithms_[getValue() - other.getValue() + 1u]
+        getZechLogarithmFromField(getField(),
+                                  getValue() - other.getValue() + 1u)
         .getValue() - 1u) % (getField().size() - 1u) + 1u;
   } else {
     value_ = (
         getValue() +
-        getField().zechLogarithms_[other.getValue() - getValue() + 1u]
+        getZechLogarithmFromField(getField(),
+                                  other.getValue() - getValue() + 1u)
         .getValue() - 1u) % (getField().size() - 1u) + 1u;
   }
   return *this;

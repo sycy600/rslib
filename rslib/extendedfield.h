@@ -5,7 +5,6 @@
 #ifndef RSLIB_EXTENDEDFIELD_H_
 #define RSLIB_EXTENDEDFIELD_H_
 
-#include <rslib/extendedfieldelement.h>
 #include <rslib/polynomial.h>
 #include <rslib/simplefieldelement.h>
 #include <rslib/zechlogarithm.h>
@@ -52,7 +51,16 @@ class ExtendedField {
 
   void createAdditionTable();
 
-  friend class ExtendedFieldElement;
+  friend ZechLogarithm getZechLogarithmFromField(const ExtendedField& field,
+                                                 unsigned int index) {
+    return field.zechLogarithms_[index];
+  }
+
+  friend Polynomial<SimpleFieldElement>
+  getPolynomialRepresentationFromField(const ExtendedField& field,
+                                       unsigned int index) {
+    return field.polynomialRepresentation_[index];
+  }
 };
 
 /// \brief Check if two extended fields are equal.
