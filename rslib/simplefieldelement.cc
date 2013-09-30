@@ -49,6 +49,9 @@ SimpleFieldElement& SimpleFieldElement::operator*=(
 }
 
 SimpleFieldElement SimpleFieldElement::multiplicativeInverse() const {
+  if (getValue() == 0) {
+    throw SimpleFieldElementException("Zero has no multiplicative inverse");
+  }
   return getField().multiplicativeInverse(*this);
 }
 
