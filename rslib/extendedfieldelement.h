@@ -14,8 +14,6 @@
 
 namespace rslib {
 
-class ExtendedField;
-
 template <class T>
 T getZero(T elem);
 

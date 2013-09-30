@@ -15,8 +15,6 @@ namespace rslib {
 template <class T>
 T getZero(T elem);
 
-class SimpleField;
-
 /// \brief Simple field element exception.
 class SimpleFieldElementException : public std::runtime_error {
  public:
