@@ -13,8 +13,6 @@
 
 namespace rslib {
 
-class ExtendedFieldElement;
-
 /// \brief Extended finite field.
 class ExtendedField {
  public:
@@ -50,36 +48,20 @@ class ExtendedField {
   std::vector<Polynomial<SimpleFieldElement>> polynomialRepresentation_;
   std::vector<ZechLogarithm> zechLogarithms_;
 
-  friend class ExtendedFieldElement;
-
   void createPolynomialRepresentation();
 
   void createAdditionTable();
 
-  ExtendedFieldElement add(const ExtendedFieldElement& first,
-                           const ExtendedFieldElement& second) const;
-
-  ExtendedFieldElement additiveInverse(
-      const ExtendedFieldElement& element) const;
-
-  ExtendedFieldElement multiply(const ExtendedFieldElement& first,
-                                const ExtendedFieldElement& second) const;
-
-  ExtendedFieldElement multiplicativeInverse(
-      const ExtendedFieldElement& element) const;
+  friend class ExtendedFieldElement;
 };
 
 /// \brief Check if two extended fields are equal.
-inline bool operator==(const ExtendedField& first,
-                       const ExtendedField& second) {
-  return first.getGenerator() == second.getGenerator();
-}
+bool operator==(const ExtendedField& first,
+                const ExtendedField& second);
 
 /// \brief Check if two extended fields are not equal.
-inline bool operator!=(const ExtendedField& first,
-                       const ExtendedField& second) {
-  return !(first == second);
-}
+bool operator!=(const ExtendedField& first,
+                const ExtendedField& second);
 
 }  // namespace rslib
 

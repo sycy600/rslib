@@ -1,6 +1,7 @@
 // Copyright 2013 sycy600
 
 #include <rslib/simplefieldelement.h>
+#include <cmath>
 
 namespace rslib {
 
@@ -27,12 +28,13 @@ SimpleFieldElement& SimpleFieldElement::operator=(
 SimpleFieldElement& SimpleFieldElement::operator+=(
     const SimpleFieldElement& other) {
   checkIfTheSameField(other);
-  *this = getField().add(*this, other);
+  value_ = (getValue() + other.getValue()) % getField().getCharacteristic();
   return *this;
 }
 
 SimpleFieldElement SimpleFieldElement::operator-() const {
-  return getField().additiveInverse(*this);
+  unsigned int result = getField().getCharacteristic() - getValue();
+  return SimpleFieldElement(result, getField());
 }
 
 SimpleFieldElement& SimpleFieldElement::operator-=(
@@ -44,7 +46,7 @@ SimpleFieldElement& SimpleFieldElement::operator-=(
 SimpleFieldElement& SimpleFieldElement::operator*=(
     const SimpleFieldElement& other) {
   checkIfTheSameField(other);
-  *this = getField().multiply(*this, other);
+  value_ = (getValue() * other.getValue()) % getField().getCharacteristic();
   return *this;
 }
 
@@ -52,7 +54,17 @@ SimpleFieldElement SimpleFieldElement::multiplicativeInverse() const {
   if (getValue() == 0) {
     throw SimpleFieldElementException("Zero has no multiplicative inverse");
   }
-  return getField().multiplicativeInverse(*this);
+  // a * a^-1 = 1 multiplicative inverse
+  // a^p \equiv a (mod p) Fermat's little theorem
+  // in finite fields:
+  // a^p = a
+  // a^{p-1} = 1
+  // a^{p-2} = 1/a = a^-1
+  // http://en.wikipedia.org/wiki/Finite_field_arithmetic
+  unsigned int result = static_cast<unsigned int>(
+      std::pow(getValue(), getField().getCharacteristic() - 2))
+      % getField().getCharacteristic();
+  return SimpleFieldElement(result, getField());
 }
 
 SimpleFieldElement& SimpleFieldElement::operator/=(

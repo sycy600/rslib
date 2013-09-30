@@ -2,8 +2,6 @@
 
 #include <rslib/extendedfield.h>
 #include <algorithm>
-#include <cmath>
-#include <limits>
 
 namespace rslib {
 
@@ -92,65 +90,12 @@ void ExtendedField::createAdditionTable() {
   }
 }
 
-ExtendedFieldElement ExtendedField::add(
-    const ExtendedFieldElement& first,
-    const ExtendedFieldElement& second) const {
-  if (first.getValue() == 0) {
-    return second;
-  } else if (second.getValue() == 0) {
-    return first;
-  } else if (additiveInverse(first) == second) {
-    return ExtendedFieldElement(0, *this);
-  } else if (first.getValue() > second.getValue()) {
-    unsigned int result = (
-        second.getValue() +
-        zechLogarithms_[first.getValue() - second.getValue() + 1u].getValue()
-        - 1u) % (size_ - 1u) + 1u;
-    return ExtendedFieldElement(result, *this);
-  } else {
-    unsigned int result = (
-        first.getValue() +
-        zechLogarithms_[second.getValue() - first.getValue() + 1u].getValue()
-        - 1u) % (size_ - 1u) + 1u;
-    return ExtendedFieldElement(result, *this);
-  }
+bool operator==(const ExtendedField& first, const ExtendedField& second) {
+  return first.getGenerator() == second.getGenerator();
 }
 
-ExtendedFieldElement ExtendedField::additiveInverse(
-    const ExtendedFieldElement& element) const {
-  if (element.getValue() == 0) {
-    return element;
-  } else if (characteristic_ == 2) {
-    return element;
-  } else {
-    unsigned int result =
-        (element.getValue() + (size_ - 1u) / 2u - 1u) % (size_ - 1u) + 1u;
-    return ExtendedFieldElement(result, *this);
-  }
-}
-
-ExtendedFieldElement ExtendedField::multiply(
-    const ExtendedFieldElement& first,
-    const ExtendedFieldElement& second) const {
-  if (first.getValue() == 0) {
-    return first;
-  } else if (second.getValue() == 0) {
-    return second;
-  } else {
-    unsigned int result =
-        1 + (first.getValue() + second.getValue() - 2u) % (size_ - 1u);
-    return ExtendedFieldElement(result, *this);
-  }
-}
-
-ExtendedFieldElement ExtendedField::multiplicativeInverse(
-    const ExtendedFieldElement& element) const {
-  if (element.getValue() == 1) {
-    return element;
-  } else {
-    unsigned int result = size_ + 1 - element.getValue();
-    return ExtendedFieldElement(result, *this);
-  }
+bool operator!=(const ExtendedField &first, const ExtendedField &second) {
+  return !(first == second);
 }
 
 }  // namespace rslib

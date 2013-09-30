@@ -41,12 +41,35 @@ ZechLogarithm rslib::ExtendedFieldElement::getZechLogarithm() const {
 ExtendedFieldElement& ExtendedFieldElement::operator+=(
     const ExtendedFieldElement& other) {
   checkIfTheSameField(other);
-  *this = getField().add(*this, other);
+  if (other.getValue() == 0) {
+    return *this;
+  } else if (getValue() == 0) {
+    *this = other;
+  } else if (*this == -other) {
+    value_ = 0;
+  } else if (getValue() > other.getValue()) {
+    value_ = (
+        other.getValue() +
+        getField().zechLogarithms_[getValue() - other.getValue() + 1u]
+        .getValue() - 1u) % (getField().size() - 1u) + 1u;
+  } else {
+    value_ = (
+        getValue() +
+        getField().zechLogarithms_[other.getValue() - getValue() + 1u]
+        .getValue() - 1u) % (getField().size() - 1u) + 1u;
+  }
   return *this;
 }
 
 ExtendedFieldElement ExtendedFieldElement::operator-() const {
-  return getField().additiveInverse(*this);
+  if (getValue() == 0 || getField().getCharacteristic() == 2) {
+    return *this;
+  } else {
+    unsigned int result =
+        (getValue() + (getField().size() - 1u) / 2u - 1u)
+            % (getField().size() - 1u) + 1u;
+    return ExtendedFieldElement(result, getField());
+  }
 }
 
 ExtendedFieldElement& ExtendedFieldElement::operator-=(
@@ -58,7 +81,14 @@ ExtendedFieldElement& ExtendedFieldElement::operator-=(
 ExtendedFieldElement& ExtendedFieldElement::operator*=(
     const ExtendedFieldElement& other) {
   checkIfTheSameField(other);
-  *this = getField().multiply(*this, other);
+  if (getValue() == 0) {
+    return *this;
+  } else if (other.getValue() == 0) {
+    value_ = 0;
+  } else {
+    value_ = 1 + (getValue() + other.getValue() - 2u)
+        % (getField().size() - 1u);
+  }
   return *this;
 }
 
@@ -66,7 +96,12 @@ ExtendedFieldElement ExtendedFieldElement::multiplicativeInverse() const {
   if (getValue() == 0) {
     throw ExtendedFieldElementException("Zero has no multiplicative inverse");
   }
-  return getField().multiplicativeInverse(*this);
+  if (getValue() == 1) {
+    return *this;
+  } else {
+    unsigned int result = getField().size() + 1 - getValue();
+    return ExtendedFieldElement(result, getField());
+  }
 }
 
 ExtendedFieldElement& ExtendedFieldElement::operator/=(
