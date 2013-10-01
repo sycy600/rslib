@@ -51,12 +51,12 @@ class ExtendedField {
 
   void createAdditionTable();
 
-  ZechLogarithm getZechLogarithmFromField(unsigned int index) const {
+  ZechLogarithm getZechLogarithm(unsigned int index) const {
     return zechLogarithms_[index];
   }
 
   Polynomial<SimpleFieldElement>
-  getPolynomialRepresentationFromField(unsigned int index) const {
+  getPolynomialRepresentation(unsigned int index) const {
     return polynomialRepresentation_[index];
   }
 
