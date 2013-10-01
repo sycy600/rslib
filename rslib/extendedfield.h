@@ -5,15 +5,12 @@
 #ifndef RSLIB_EXTENDEDFIELD_H_
 #define RSLIB_EXTENDEDFIELD_H_
 
-#include <rslib/extendedfieldelement.h>
 #include <rslib/polynomial.h>
 #include <rslib/simplefieldelement.h>
 #include <rslib/zechlogarithm.h>
 #include <vector>
 
 namespace rslib {
-
-class ExtendedFieldElement;
 
 /// \brief Extended finite field.
 class ExtendedField {
@@ -50,36 +47,29 @@ class ExtendedField {
   std::vector<Polynomial<SimpleFieldElement>> polynomialRepresentation_;
   std::vector<ZechLogarithm> zechLogarithms_;
 
-  friend class ExtendedFieldElement;
-
   void createPolynomialRepresentation();
 
   void createAdditionTable();
 
-  ExtendedFieldElement add(const ExtendedFieldElement& first,
-                           const ExtendedFieldElement& second) const;
+  friend ZechLogarithm getZechLogarithmFromField(const ExtendedField& field,
+                                                 unsigned int index) {
+    return field.zechLogarithms_[index];
+  }
 
-  ExtendedFieldElement additiveInverse(
-      const ExtendedFieldElement& element) const;
-
-  ExtendedFieldElement multiply(const ExtendedFieldElement& first,
-                                const ExtendedFieldElement& second) const;
-
-  ExtendedFieldElement multiplicativeInverse(
-      const ExtendedFieldElement& element) const;
+  friend Polynomial<SimpleFieldElement>
+  getPolynomialRepresentationFromField(const ExtendedField& field,
+                                       unsigned int index) {
+    return field.polynomialRepresentation_[index];
+  }
 };
 
 /// \brief Check if two extended fields are equal.
-inline bool operator==(const ExtendedField& first,
-                       const ExtendedField& second) {
-  return first.getGenerator() == second.getGenerator();
-}
+bool operator==(const ExtendedField& first,
+                const ExtendedField& second);
 
 /// \brief Check if two extended fields are not equal.
-inline bool operator!=(const ExtendedField& first,
-                       const ExtendedField& second) {
-  return !(first == second);
-}
+bool operator!=(const ExtendedField& first,
+                const ExtendedField& second);
 
 }  // namespace rslib
 
