@@ -51,16 +51,16 @@ class ExtendedField {
 
   void createAdditionTable();
 
-  friend ZechLogarithm getZechLogarithmFromField(const ExtendedField& field,
-                                                 unsigned int index) {
-    return field.zechLogarithms_[index];
+  ZechLogarithm getZechLogarithmFromField(unsigned int index) const {
+    return zechLogarithms_[index];
   }
 
-  friend Polynomial<SimpleFieldElement>
-  getPolynomialRepresentationFromField(const ExtendedField& field,
-                                       unsigned int index) {
-    return field.polynomialRepresentation_[index];
+  Polynomial<SimpleFieldElement>
+  getPolynomialRepresentationFromField(unsigned int index) const {
+    return polynomialRepresentation_[index];
   }
+
+  friend class ExtendedFieldElement;
 };
 
 /// \brief Check if two extended fields are equal.
