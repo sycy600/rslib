@@ -47,7 +47,7 @@ class Polynomial {
   }
 
   /// \brief Return degree of polynomial.
-  unsigned int degree() const {
+  unsigned int getDegree() const {
     return coefficients_.size() - 1;
   }
 
@@ -61,7 +61,7 @@ class Polynomial {
     // If current coefficients container is too small to set new coefficient
     // then make this polynomial bigger by adding zeroes and new coefficient
     // as the last coefficient.
-    unsigned int originalDegree = degree();
+    unsigned int originalDegree = getDegree();
     if (index > originalDegree) {
       for (unsigned int i = 0; i < index - originalDegree - 1; ++i) {
         coefficients_.push_back(getZero<T>(getValue(0)));
@@ -84,7 +84,7 @@ class Polynomial {
   /// \param value Value used to evaluated polynomial.
   /// \return Computed polynomial evaluation.
   T evaluate(const T& value) const {
-    unsigned int currentDegree = degree();
+    unsigned int currentDegree = getDegree();
     T result = coefficients_[currentDegree];
     for (unsigned int i = 0; i < currentDegree; ++i) {
       result = result * value + getValue(currentDegree - 1 - i);
@@ -95,13 +95,13 @@ class Polynomial {
   /// \brief Add two polynomials.
   Polynomial<T>& operator+=(const Polynomial<T>& other) {
     Polynomial<T> result(*this);
-    unsigned smallerDegree = std::min(degree(), other.degree());
+    unsigned smallerDegree = std::min(getDegree(), other.getDegree());
     // Add coefficients on the common positions.
     for (unsigned int i = 0; i < smallerDegree + 1; ++i) {
       result.coefficients_[i] += other.coefficients_[i];
     }
     // If other polynomial is greater then append its coefficients.
-    for (unsigned int i = smallerDegree + 1; i < other.degree() + 1; ++i) {
+    for (unsigned int i = smallerDegree + 1; i < other.getDegree() + 1; ++i) {
       result.coefficients_.push_back(other.coefficients_[i]);
     }
     result.cleanZeroes();
@@ -112,13 +112,13 @@ class Polynomial {
   /// \brief Subtract two polynomials.
   Polynomial<T>& operator-=(const Polynomial<T>& other) {
     Polynomial<T> result(*this);
-    unsigned smallerDegree = std::min(degree(), other.degree());
+    unsigned smallerDegree = std::min(getDegree(), other.getDegree());
     // Subtract coefficients on the common positions.
     for (unsigned int i = 0; i < smallerDegree + 1; ++i) {
       result.coefficients_[i] -= other.coefficients_[i];
     }
     // If other polynomial is greater then append its negative coefficients.
-    for (unsigned int i = smallerDegree + 1; i < other.degree() + 1; ++i) {
+    for (unsigned int i = smallerDegree + 1; i < other.getDegree() + 1; ++i) {
       result.coefficients_.push_back(-other.coefficients_[i]);
     }
     result.cleanZeroes();
@@ -128,12 +128,12 @@ class Polynomial {
 
   /// \brief Multiply two polynomials.
   Polynomial<T>& operator*=(const Polynomial<T>& other) {
-    unsigned int thisDegree = degree();
-    unsigned int otherDegree = other.degree();
+    unsigned int thisDegree = getDegree();
+    unsigned int otherDegree = other.getDegree();
     Polynomial<T> result({getZero<T>(other.getValue(0))});
     for (unsigned int i = 0; i < thisDegree + 1; ++i) {
       for (unsigned int j = 0; j < otherDegree + 1; ++j) {
-        if (i + j > result.degree()) {
+        if (i + j > result.getDegree()) {
           result.setValue(i + j, getValue(i) * other.getValue(j));
         } else {
           result.setValue(i + j,
@@ -194,7 +194,7 @@ class Polynomial {
   // Remove all leading zeroes from polynomial but not the last.
   void cleanZeroes() {
     T zero = getZero<T>(getValue(0));
-    while ((zero == coefficients_[degree()]) && degree() > 0) {
+    while ((zero == coefficients_[getDegree()]) && getDegree() > 0) {
       coefficients_.erase(coefficients_.end() - 1);
     }
   }
@@ -207,12 +207,13 @@ class Polynomial {
     }
     Polynomial<T> quotient = zeroPolynomial;
     Polynomial<T> rest = dividend;
-    while (rest != zeroPolynomial && rest.degree() >= divisor.degree()) {
-      T result = rest.getValue(rest.degree())
-          / divisor.getValue(divisor.degree());
-      quotient.setValue(rest.degree() - divisor.degree(), result);
+    while (rest != zeroPolynomial && rest.getDegree() >= divisor.getDegree()) {
+      T result = rest.getValue(rest.getDegree())
+          / divisor.getValue(divisor.getDegree());
+      quotient.setValue(rest.getDegree() - divisor.getDegree(), result);
       Polynomial<T> currentShiftedResult = zeroPolynomial;
-      currentShiftedResult.setValue(rest.degree() - divisor.degree(), result);
+      currentShiftedResult.setValue(rest.getDegree() - divisor.getDegree(),
+                                    result);
       rest -= currentShiftedResult * divisor;
     }
     return {quotient, rest};  // NOLINT(readability/braces)
@@ -277,9 +278,9 @@ inline Polynomial<T> operator%(const Polynomial<T>& first,
 template <class T>
 inline bool operator==(const Polynomial<T>& first,
                        const Polynomial<T>& second) {
-  unsigned int currentDegree = first.degree();
+  unsigned int currentDegree = first.getDegree();
   // Check first if degrees match.
-  if (currentDegree != second.degree()) {
+  if (currentDegree != second.getDegree()) {
     return false;
   }
   // Then check if values of elements are equal.

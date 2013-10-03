@@ -19,24 +19,22 @@ class ExtendedField {
   explicit ExtendedField(const Polynomial<SimpleFieldElement>& generator);
 
   /// \brief Get generator.
-  const Polynomial<SimpleFieldElement>& getGenerator() const {
-    return generator_;
-  }
+  const Polynomial<SimpleFieldElement>& getGenerator() const;
 
   /// \brief Get characteristic.
-  unsigned int getCharacteristic() const {
-    return characteristic_;
-  }
+  unsigned int getCharacteristic() const;
 
   /// \brief Get extension order.
-  unsigned int getExtensionOrder() const {
-    return extensionOrder_;
-  }
+  unsigned int getExtensionOrder() const;
 
   /// \brief Get size.
-  unsigned int size() const {
-    return size_;
-  }
+  unsigned int getSize() const;
+
+  /// \brief Check if two extended fields are equal.
+  bool operator==(const ExtendedField& other) const;
+
+  /// \brief Check if two extended fields are not equal.
+  bool operator!=(const ExtendedField& other) const;
 
  private:
   const Polynomial<SimpleFieldElement> generator_;
@@ -51,25 +49,13 @@ class ExtendedField {
 
   void createAdditionTable();
 
-  ZechLogarithm getZechLogarithm(unsigned int index) const {
-    return zechLogarithms_[index];
-  }
+  ZechLogarithm getZechLogarithm(unsigned int index) const;
 
   Polynomial<SimpleFieldElement>
-  getPolynomialRepresentation(unsigned int index) const {
-    return polynomialRepresentation_[index];
-  }
+  getPolynomialRepresentation(unsigned int index) const;
 
   friend class ExtendedFieldElement;
 };
-
-/// \brief Check if two extended fields are equal.
-bool operator==(const ExtendedField& first,
-                const ExtendedField& second);
-
-/// \brief Check if two extended fields are not equal.
-bool operator!=(const ExtendedField& first,
-                const ExtendedField& second);
 
 }  // namespace rslib
 

@@ -21,21 +21,15 @@ class ZechLogarithm {
   /// \brief Get value.
   unsigned int getValue() const;
 
+  /// \brief Check if two Zech logarithms are equal.
+  bool operator==(const ZechLogarithm& other) const;
+
+  /// \brief Check if two Zech logarithms are not equal.
+  bool operator!=(const ZechLogarithm& other) const;
+
  private:
   unsigned int value_;
 };
-
-/// \brief Check if two Zech logarithms are equal.
-inline bool operator==(const ZechLogarithm& first,
-                       const ZechLogarithm& second) {
-  return first.getValue() == second.getValue();
-}
-
-/// \brief Check if two Zech logarithms are not equal.
-inline bool operator!=(const ZechLogarithm& first,
-                       const ZechLogarithm& second) {
-  return !(first == second);
-}
 
 /// \brief Print Zech logarithm to output stream.
 inline std::ostream& operator<<(

@@ -37,9 +37,7 @@ class ExtendedFieldElement {
                        const ExtendedField& extendedField);
 
   /// \brief Get value.
-  unsigned int getValue() const {
-    return value_;
-  }
+  unsigned int getValue() const;
 
   /// \brief Assignment operator.
   ExtendedFieldElement& operator=(const ExtendedFieldElement& other);
@@ -71,38 +69,32 @@ class ExtendedFieldElement {
   /// \brief Division operator.
   ExtendedFieldElement& operator/=(const ExtendedFieldElement& other);
 
+  /// \brief Check if two extended field elements are equal.
+  bool operator==(const ExtendedFieldElement& other) const;
+
+  /// \brief Check if two extended field elements are not equal.
+  bool operator!=(const ExtendedFieldElement& other) const;
+
+  /// \brief Add two extended field elements.
+  ExtendedFieldElement operator+(const ExtendedFieldElement& other) const;
+
+  /// \brief Subtract one extended field element from other extended
+  ///        field element.
+  ExtendedFieldElement operator-(const ExtendedFieldElement& other) const;
+
+  /// \brief Multiply two extended field elements.
+  ExtendedFieldElement operator*(const ExtendedFieldElement& other) const;
+
+  /// \brief Divide one extended field element by other extended
+  ///        field element.
+  ExtendedFieldElement operator/(const ExtendedFieldElement& other) const;
+
  private:
   unsigned int value_;
   const ExtendedField& extendedField_;
 
   void checkIfTheSameField(const ExtendedFieldElement& other) const;
 };
-
-/// \brief Check if two extended field elements are equal.
-bool operator==(const ExtendedFieldElement& first,
-                const ExtendedFieldElement& second);
-
-/// \brief Check if two extended field elements are not equal.
-bool operator!=(const ExtendedFieldElement& first,
-                const ExtendedFieldElement& second);
-
-/// \brief Add two extended field elements.
-ExtendedFieldElement operator+(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second);
-
-/// \brief Subtract one extended field element from other extended
-///        field element.
-ExtendedFieldElement operator-(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second);
-
-/// \brief Multiply two extended field elements.
-ExtendedFieldElement operator*(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second);
-
-/// \brief Divide one extended field element by other extended
-///        field element.
-ExtendedFieldElement operator/(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second);
 
 /// \brief Print extended field element to output stream.
 inline std::ostream& operator<<(
