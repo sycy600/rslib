@@ -33,9 +33,7 @@ class SimpleFieldElement {
   SimpleFieldElement(unsigned int value, const SimpleField& simpleField);
 
   /// \brief Get value.
-  unsigned int getValue() const {
-    return value_;
-  }
+  unsigned int getValue() const;
 
   /// \brief Assignment operator.
   SimpleFieldElement& operator=(const SimpleFieldElement& other);
@@ -59,9 +57,25 @@ class SimpleFieldElement {
   SimpleFieldElement& operator/=(const SimpleFieldElement& other);
 
   /// \brief Get field.
-  const SimpleField& getField() const {
-    return simpleField_;
-  }
+  const SimpleField& getField() const;
+
+  /// \brief Check if two simple field elements are equal.
+  bool operator==(const SimpleFieldElement& other) const;
+
+  /// \brief Check if two simple field elements are not equal.
+  bool operator!=(const SimpleFieldElement& other) const;
+
+  /// \brief Add two simple field elements.
+  SimpleFieldElement operator+(const SimpleFieldElement& other) const;
+
+  /// \brief Subtract one simple field element from other simple field element.
+  SimpleFieldElement operator-(const SimpleFieldElement& other) const;
+
+  /// \brief Multiply two simple field elements.
+  SimpleFieldElement operator*(const SimpleFieldElement& other) const;
+
+  /// \brief Divide one simple field element by other simple field element.
+  SimpleFieldElement operator/(const SimpleFieldElement& other) const;
 
  private:
   unsigned int value_;
@@ -71,30 +85,6 @@ class SimpleFieldElement {
   // If they are not then throw exception.
   void checkIfTheSameField(const SimpleFieldElement& other) const;
 };
-
-/// \brief Check if two simple field elements are equal.
-bool operator==(const SimpleFieldElement& first,
-                const SimpleFieldElement& second);
-
-/// \brief Check if two simple field elements are not equal.
-bool operator!=(const SimpleFieldElement& first,
-                const SimpleFieldElement& second);
-
-/// \brief Add two simple field elements.
-SimpleFieldElement operator+(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second);
-
-/// \brief Subtract one simple field element from other simple field element.
-SimpleFieldElement operator-(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second);
-
-/// \brief Multiply two simple field elements.
-SimpleFieldElement operator*(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second);
-
-/// \brief Divide one simple field element by other simple field element.
-SimpleFieldElement operator/(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second);
 
 /// \brief Print simple field element to output stream.
 inline std::ostream& operator<<(std::ostream& os,  // NOLINT(runtime/references)

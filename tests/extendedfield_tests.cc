@@ -18,6 +18,6 @@ TEST(ExtendedField, GetGenerator) {
   rslib::ExtendedField ef(generator);
   ASSERT_EQ(ef.getGenerator(), generator);
   ASSERT_EQ(ef.getCharacteristic(), 2u);
-  ASSERT_EQ(ef.size(), 8u);
+  ASSERT_EQ(ef.getSize(), 8u);
   ASSERT_EQ(ef.getExtensionOrder(), 3u);
 }

@@ -16,4 +16,12 @@ unsigned int ZechLogarithm::getValue() const {
   return value_;
 }
 
+bool ZechLogarithm::operator==(const ZechLogarithm& other) const {
+  return getValue() == other.getValue();
+}
+
+bool ZechLogarithm::operator!=(const ZechLogarithm& other) const {
+  return !(*this == other);
+}
+
 }  // namespace rslib

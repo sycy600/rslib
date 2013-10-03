@@ -16,17 +16,15 @@ class SimpleField {
   /// \brief Get characteristic.
   unsigned int getCharacteristic() const;
 
+  /// \brief Check if two simple fields are equal.
+  bool operator==(const SimpleField& other) const;
+
+  /// \brief Check if two simple fields are not equal.
+  bool operator!=(const SimpleField& other) const;
+
  private:
   const unsigned int characteristic_;
 };
-
-/// \brief Check if two simple fields are equal.
-bool operator==(const SimpleField& first,
-                const SimpleField& second);
-
-/// \brief Check if two simple fields are not equal.
-bool operator!=(const SimpleField& first,
-                const SimpleField& second);
 
 }  // namespace rslib
 

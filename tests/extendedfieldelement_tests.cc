@@ -43,7 +43,7 @@ TEST_F(ExtendedFieldElementFixtureGF8, PolynomialOfExtendedFieldElements) {
       poly({rslib::ExtendedFieldElement(1, ef),
             rslib::ExtendedFieldElement(0, ef),
             rslib::ExtendedFieldElement(1, ef)});
-  ASSERT_EQ(poly.degree(), 2u);
+  ASSERT_EQ(poly.getDegree(), 2u);
 }
 
 TEST_F(ExtendedFieldElementFixtureGF8, GetValue) {

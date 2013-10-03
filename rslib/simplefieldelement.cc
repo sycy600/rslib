@@ -81,46 +81,52 @@ void SimpleFieldElement::checkIfTheSameField(
   }
 }
 
-bool operator==(const SimpleFieldElement& first,
-                const SimpleFieldElement& second) {
-  if (first.getField() != second.getField()) {
+bool SimpleFieldElement::operator==(const SimpleFieldElement& other) const {
+  if (getField() != other.getField()) {
     throw SimpleFieldElementException(
           "Assignment to field element from different field");
   }
-  return first.getValue() == second.getValue();
+  return getValue() == other.getValue();
 }
 
-bool operator!=(const SimpleFieldElement& first,
-                const SimpleFieldElement& second) {
-  return !(first == second);
+bool SimpleFieldElement::operator!=(const SimpleFieldElement& other) const {
+  return !(*this == other);
 }
 
-SimpleFieldElement operator+(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second) {
-  SimpleFieldElement result(first);
-  result += second;
+SimpleFieldElement SimpleFieldElement::operator+(
+                             const SimpleFieldElement& other) const {
+  SimpleFieldElement result(*this);
+  result += other;
   return result;
 }
 
-SimpleFieldElement operator-(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second) {
-  SimpleFieldElement result(first);
-  result -= second;
+SimpleFieldElement SimpleFieldElement::operator-(
+                             const SimpleFieldElement& other) const {
+  SimpleFieldElement result(*this);
+  result -= other;
   return result;
 }
 
-SimpleFieldElement operator*(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second) {
-  SimpleFieldElement result(first);
-  result *= second;
+SimpleFieldElement SimpleFieldElement::operator*(
+                             const SimpleFieldElement& other) const {
+  SimpleFieldElement result(*this);
+  result *= other;
   return result;
 }
 
-SimpleFieldElement operator/(const SimpleFieldElement& first,
-                             const SimpleFieldElement& second) {
-  SimpleFieldElement result(first);
-  result /= second;
+SimpleFieldElement SimpleFieldElement::operator/(
+                             const SimpleFieldElement& other) const {
+  SimpleFieldElement result(*this);
+  result /= other;
   return result;
+}
+
+const SimpleField& SimpleFieldElement::getField() const {
+  return simpleField_;
+}
+
+unsigned int SimpleFieldElement::getValue() const {
+  return value_;
 }
 
 }  // namespace rslib
