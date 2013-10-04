@@ -16,7 +16,7 @@ TEST(Polynomial, ZeroCoeffs) {
   // of polynomial.
   std::vector<int> coeff = {1, 0};
   rslib::Polynomial<int> p(coeff);
-  ASSERT_EQ(p.degree(), 0u);
+  ASSERT_EQ(p.getDegree(), 0u);
   ASSERT_EQ(p.getValue(0), 1);
 }
 
@@ -25,21 +25,21 @@ TEST(Polynomial, OnlyZeroCoeffs) {
   // the result is 0 polynomial.
   std::vector<int> coeff = {0, 0};
   rslib::Polynomial<int> p(coeff);
-  ASSERT_EQ(p.degree(), 0u);
+  ASSERT_EQ(p.getDegree(), 0u);
   ASSERT_EQ(p.getValue(0), 0);
 }
 
 TEST(Polynomial, CreatingPolynomialWithoutGivingCoefficient) {
   // 0 degree polynomial with single 0 value is created.
   rslib::Polynomial<int> p({0});
-  ASSERT_EQ(p.degree(), 0u);
+  ASSERT_EQ(p.getDegree(), 0u);
   ASSERT_EQ(p.getValue(0), 0);
 }
 
-TEST(Polynomial, Degree) {
+TEST(Polynomial, GetDegree) {
   std::vector<int> coeff = {1, 1};
   rslib::Polynomial<int> p(coeff);
-  ASSERT_EQ(p.degree(), 1u);
+  ASSERT_EQ(p.getDegree(), 1u);
 }
 
 TEST(Polynomial, GetValue) {

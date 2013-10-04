@@ -12,12 +12,12 @@ unsigned int SimpleField::getCharacteristic() const {
   return characteristic_;
 }
 
-bool operator!=(const SimpleField& first, const SimpleField& second) {
-  return !(first == second);
+bool SimpleField::operator!=(const SimpleField& other) const {
+  return !(*this == other);
 }
 
-bool operator==(const SimpleField& first, const SimpleField& second) {
-  return first.getCharacteristic() == second.getCharacteristic();
+bool SimpleField::operator==(const SimpleField& other) const {
+  return getCharacteristic() == other.getCharacteristic();
 }
 
 }  // namespace rslib

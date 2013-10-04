@@ -8,7 +8,7 @@ namespace rslib {
 ExtendedField::ExtendedField(const Polynomial<SimpleFieldElement>& generator)
   : generator_(generator),
     characteristic_(generator.getValue(0).getField().getCharacteristic()),
-    extensionOrder_(generator.degree()),
+    extensionOrder_(generator.getDegree()),
     size_(std::pow(characteristic_, extensionOrder_)),
     simpleField_(generator.getValue(0).getField()) {
   createPolynomialRepresentation();
@@ -90,12 +90,37 @@ void ExtendedField::createAdditionTable() {
   }
 }
 
-bool operator==(const ExtendedField& first, const ExtendedField& second) {
-  return first.getGenerator() == second.getGenerator();
+bool ExtendedField::operator==(const ExtendedField& other) const {
+  return getGenerator() == other.getGenerator();
 }
 
-bool operator!=(const ExtendedField &first, const ExtendedField &second) {
-  return !(first == second);
+bool ExtendedField::operator!=(const ExtendedField& other) const {
+  return !(*this == other);
+}
+
+unsigned int ExtendedField::getSize() const {
+  return size_;
+}
+
+unsigned int ExtendedField::getExtensionOrder() const {
+  return extensionOrder_;
+}
+
+unsigned int ExtendedField::getCharacteristic() const {
+  return characteristic_;
+}
+
+const Polynomial<SimpleFieldElement>& ExtendedField::getGenerator() const {
+  return generator_;
+}
+
+ZechLogarithm ExtendedField::getZechLogarithm(unsigned int index) const {
+  return zechLogarithms_[index];
+}
+
+Polynomial<SimpleFieldElement> ExtendedField::getPolynomialRepresentation(
+    unsigned int index) const {
+  return polynomialRepresentation_[index];
 }
 
 }  // namespace rslib

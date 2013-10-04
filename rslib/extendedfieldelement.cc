@@ -51,12 +51,12 @@ ExtendedFieldElement& ExtendedFieldElement::operator+=(
     value_ = (
         other.getValue() +
         getField().getZechLogarithm(getValue() - other.getValue() + 1u)
-        .getValue() - 1u) % (getField().size() - 1u) + 1u;
+        .getValue() - 1u) % (getField().getSize() - 1u) + 1u;
   } else {
     value_ = (
         getValue() +
         getField().getZechLogarithm(other.getValue() - getValue() + 1u)
-        .getValue() - 1u) % (getField().size() - 1u) + 1u;
+        .getValue() - 1u) % (getField().getSize() - 1u) + 1u;
   }
   return *this;
 }
@@ -66,8 +66,8 @@ ExtendedFieldElement ExtendedFieldElement::operator-() const {
     return *this;
   } else {
     unsigned int result =
-        (getValue() + (getField().size() - 1u) / 2u - 1u)
-            % (getField().size() - 1u) + 1u;
+        (getValue() + (getField().getSize() - 1u) / 2u - 1u)
+            % (getField().getSize() - 1u) + 1u;
     return ExtendedFieldElement(result, getField());
   }
 }
@@ -87,7 +87,7 @@ ExtendedFieldElement& ExtendedFieldElement::operator*=(
     value_ = 0;
   } else {
     value_ = 1 + (getValue() + other.getValue() - 2u)
-        % (getField().size() - 1u);
+        % (getField().getSize() - 1u);
   }
   return *this;
 }
@@ -99,7 +99,7 @@ ExtendedFieldElement ExtendedFieldElement::multiplicativeInverse() const {
   if (getValue() == 1) {
     return *this;
   } else {
-    unsigned int result = getField().size() + 1 - getValue();
+    unsigned int result = getField().getSize() + 1 - getValue();
     return ExtendedFieldElement(result, getField());
   }
 }
@@ -118,46 +118,50 @@ void ExtendedFieldElement::checkIfTheSameField(
   }
 }
 
-bool operator==(const ExtendedFieldElement& first,
-                const ExtendedFieldElement& second) {
-  if (first.getField() != second.getField()) {
+bool ExtendedFieldElement::operator==(
+                const ExtendedFieldElement& other) const {
+  if (getField() != other.getField()) {
     throw ExtendedFieldElementException(
           "Elements must be placed in the same extended field");
   }
-  return first.getValue() == second.getValue();
+  return getValue() == other.getValue();
 }
 
-bool operator!=(const ExtendedFieldElement& first,
-                const ExtendedFieldElement& second) {
-  return !(first == second);
+bool ExtendedFieldElement::operator!=(
+                const ExtendedFieldElement& other) const {
+  return !(*this == other);
 }
 
-ExtendedFieldElement operator+(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second) {
-  ExtendedFieldElement result(first);
-  result += second;
+ExtendedFieldElement ExtendedFieldElement::operator+(
+                               const ExtendedFieldElement& other) const {
+  ExtendedFieldElement result(*this);
+  result += other;
   return result;
 }
 
-ExtendedFieldElement operator-(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second) {
-  ExtendedFieldElement result(first);
-  result -= second;
+ExtendedFieldElement ExtendedFieldElement::operator-(
+                               const ExtendedFieldElement& other) const {
+  ExtendedFieldElement result(*this);
+  result -= other;
   return result;
 }
 
-ExtendedFieldElement operator*(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second) {
-  ExtendedFieldElement result(first);
-  result *= second;
+ExtendedFieldElement ExtendedFieldElement::operator*(
+                               const ExtendedFieldElement& other) const {
+  ExtendedFieldElement result(*this);
+  result *= other;
   return result;
 }
 
-ExtendedFieldElement operator/(const ExtendedFieldElement& first,
-                               const ExtendedFieldElement& second) {
-  ExtendedFieldElement result(first);
-  result /= second;
+ExtendedFieldElement ExtendedFieldElement::operator/(
+                               const ExtendedFieldElement& other) const {
+  ExtendedFieldElement result(*this);
+  result /= other;
   return result;
+}
+
+unsigned int ExtendedFieldElement::getValue() const {
+  return value_;
 }
 
 }  // namespace rslib
