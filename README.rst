@@ -43,9 +43,14 @@ Unit tests are placed in directory ``tests``.
 
 The pattern for test filename is ``*_tests.cc``.
 
-Run unit tests::
+Run all unit tests::
 
     make test
+
+Run only tests which name match filter (example filter will make testrunner to run
+only ``Polynomial`` class tests)::
+
+    make test ARGS="--gtest_filter=Polynomial.*"
 
 Run ``cpplint.py``::
 
