@@ -43,6 +43,10 @@ Unit tests are placed in directory ``tests``.
 
 The pattern for test filename is ``*_tests.cc``.
 
+Build project and do all checks (all-in-one)::
+
+    ./check.sh
+
 Run all unit tests::
 
     make test
@@ -62,10 +66,6 @@ Check for memory leaks with Valgrind (it runs Valgrind on unit
 test runner process)::
 
     make memcheck
-
-Build project and do all checks (all-in-one)::
-
-    ./check.sh
 
 Documentation
 =============
