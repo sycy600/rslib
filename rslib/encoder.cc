@@ -6,9 +6,7 @@ namespace rslib {
 
 Encoder::Encoder(unsigned int errorCorrectionCapability,
                  const ExtendedField& extendedField)
-  : errorCorrectionCapability_(errorCorrectionCapability),
-    extendedField_(extendedField),
-    codeGenerator_(buildCodeGenerator(errorCorrectionCapability,
+  : codeGenerator_(buildCodeGenerator(errorCorrectionCapability,
                                       extendedField)),
     encodingShifter_(buildEncodingShifter(errorCorrectionCapability,
                                           extendedField)) {

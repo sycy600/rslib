@@ -30,8 +30,6 @@ class Encoder {
   Polynomial<ExtendedFieldElement> getCodeGenerator() const;
 
  private:
-  unsigned int errorCorrectionCapability_;
-  const ExtendedField& extendedField_;
   const Polynomial<ExtendedFieldElement> codeGenerator_;
 
   // Used to shift information polynomial while encoding.
