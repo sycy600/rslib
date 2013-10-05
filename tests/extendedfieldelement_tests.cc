@@ -5,37 +5,16 @@
 #include <rslib/simplefieldelement.h>
 #include <rslib/extendedfield.h>
 #include <rslib/extendedfieldelement.h>
+#include <tests/fixtures.h>
 #include <gtest/gtest.h>
 #include <limits>
 #include <sstream>
 
-class ExtendedFieldElementFixtureGF8 : public ::testing::Test {
- protected:
-  // field GF(2)
-  rslib::SimpleField sf = rslib::SimpleField(2);
-  rslib::Polynomial<rslib::SimpleFieldElement>
-      generator = rslib::Polynomial<rslib::SimpleFieldElement>({
-                  rslib::SimpleFieldElement(1, sf),
-                  rslib::SimpleFieldElement(1, sf),
-                  rslib::SimpleFieldElement(0, sf),
-                  rslib::SimpleFieldElement(1, sf)});
-
-  // field GF(2^3) = GF(8)
-  rslib::ExtendedField ef = rslib::ExtendedField(generator);
+// Rename these fixtures so Google Test output looks nicer.
+class ExtendedFieldElementFixtureGF8 : public FixtureGF8 {
 };
 
-class ExtendedFieldElementFixtureGF9 : public ::testing::Test {
- protected:
-  // field GF(3)
-  rslib::SimpleField sf = rslib::SimpleField(3);
-  rslib::Polynomial<rslib::SimpleFieldElement>
-      generator = rslib::Polynomial<rslib::SimpleFieldElement>({
-                  rslib::SimpleFieldElement(2, sf),
-                  rslib::SimpleFieldElement(1, sf),
-                  rslib::SimpleFieldElement(1, sf)});
-
-  // field GF(3^2) = GF(9)
-  rslib::ExtendedField ef = rslib::ExtendedField(generator);
+class ExtendedFieldElementFixtureGF9 : public FixtureGF9 {
 };
 
 TEST_F(ExtendedFieldElementFixtureGF8, PolynomialOfExtendedFieldElements) {
@@ -367,6 +346,13 @@ TEST_F(ExtendedFieldElementFixtureGF8, MultiplyWithZeroSecondArgument) {
   rslib::ExtendedFieldElement first(4, ef);
   rslib::ExtendedFieldElement second(0, ef);
   ASSERT_EQ(first * second, rslib::ExtendedFieldElement(0, ef));
+}
+
+TEST_F(ExtendedFieldElementFixtureGF8, MultiplyOutOfBound) {
+  // A = A^6 * A^2 in GF(8)
+  rslib::ExtendedFieldElement first(7, ef);
+  rslib::ExtendedFieldElement second(3, ef);
+  ASSERT_EQ(first * second, rslib::ExtendedFieldElement(2, ef));
 }
 
 TEST_F(ExtendedFieldElementFixtureGF9, Multiply) {
