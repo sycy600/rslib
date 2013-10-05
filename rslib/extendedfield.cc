@@ -9,7 +9,8 @@ ExtendedField::ExtendedField(const Polynomial<SimpleFieldElement>& generator)
   : generator_(generator),
     characteristic_(generator.getValue(0).getField().getCharacteristic()),
     extensionOrder_(generator.getDegree()),
-    size_(std::pow(characteristic_, extensionOrder_)),
+    size_(std::pow(generator.getValue(0).getField().getCharacteristic(),
+                   generator.getDegree())),
     simpleField_(generator.getValue(0).getField()) {
   createPolynomialRepresentation();
   createAdditionTable();
