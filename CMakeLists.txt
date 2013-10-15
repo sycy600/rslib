@@ -20,6 +20,6 @@ install(DIRECTORY rslib DESTINATION include FILES_MATCHING PATTERN "*.h")
 
 add_custom_target(test COMMAND ${testrunner} \${ARGS} DEPENDS ${testrunner})
 add_custom_target(lint COMMAND python ${PROJECT_SOURCE_DIR}/tools/cpplint.py --filter=-readability/streams ${PROJECT_SOURCE_DIR}/rslib/* ${PROJECT_SOURCE_DIR}/tests/*)
-add_custom_target(memcheck COMMAND valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./${testrunner})
+add_custom_target(memcheck COMMAND valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./${testrunner} DEPENDS ${testrunner})
 add_custom_target(doc COMMAND bash ${PROJECT_SOURCE_DIR}/tools/run_doxygen.sh ${PROJECT_SOURCE_DIR}/rslib ${PROJECT_SOURCE_DIR}/tools/Doxyfile)
 

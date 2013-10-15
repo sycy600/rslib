@@ -73,8 +73,9 @@ void ExtendedField::createAdditionTable() {
   // else N(Z(x)) = N(x) + 1
   std::vector<unsigned int> NZX;
   for (unsigned int i = 0; i < NX.size(); ++i) {
-    unsigned int checkCongruent = NX[i] + 1u - characteristic_;
-    if (checkCongruent % characteristic_) {
+    int checkCongruent = NX[i] + 1 - characteristic_;
+    // checkCongruent can be negative so there's needed signed integer.
+    if (checkCongruent % static_cast<int>(characteristic_)) {
       NZX.push_back(NX[i] + 1u);
     } else {
       NZX.push_back(checkCongruent);

@@ -36,6 +36,13 @@ class ExtendedFieldElement {
   ExtendedFieldElement(unsigned int value,
                        const ExtendedField& extendedField);
 
+  /// \brief Constructor.
+  /// \param polynomialRepresentation Polynomial representation of extended
+  ///        field element.
+  /// \param extendedField Extended field in which element is placed.
+  ExtendedFieldElement(Polynomial<SimpleFieldElement> polynomialRepresentation,
+                       const ExtendedField& extendedField);
+
   /// \brief Get value.
   unsigned int getValue() const;
 

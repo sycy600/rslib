@@ -1,6 +1,6 @@
 // Copyright 2013 sycy600
 
-/// \file zechlogarithm.h Simple field element.
+/// \file zechlogarithm.h Zech logarithm class.
 
 #ifndef RSLIB_ZECHLOGARITHM_H_
 #define RSLIB_ZECHLOGARITHM_H_

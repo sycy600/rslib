@@ -18,3 +18,4 @@ Unreleased
 * Add: Creation of extended finite fields
 * Add: Extended finite field basic arithmetic
 * Add: Reed-Solomon code encoder
+* Add: Reed-Solomon code BMA decoder

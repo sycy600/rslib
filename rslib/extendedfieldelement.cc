@@ -12,7 +12,26 @@ ExtendedFieldElement getZero(ExtendedFieldElement elem) {
 
 ExtendedFieldElement::ExtendedFieldElement(unsigned int value,
                                            const ExtendedField& extendedField)
-  : value_(value), extendedField_(extendedField) { }
+  : value_(value % extendedField.getSize()), extendedField_(extendedField) { }
+
+ExtendedFieldElement::ExtendedFieldElement(
+    Polynomial<SimpleFieldElement> polynomialRepresentation,
+    const ExtendedField& extendedField)
+  : extendedField_(extendedField) {
+  bool found = false;
+  // Find exponent of alpha element represented by polynomial representation.
+  for (unsigned int i = 0; i < extendedField_.getSize(); ++i) {
+    if (extendedField_.getPolynomialRepresentation(i)
+       == polynomialRepresentation) {
+      value_ = i;
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    throw ExtendedFieldElementException("Element not found");
+  }
+}
 
 ExtendedFieldElement& ExtendedFieldElement::operator=(
     const ExtendedFieldElement& other) {
