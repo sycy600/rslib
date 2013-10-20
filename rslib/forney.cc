@@ -31,9 +31,8 @@ ForneyAlgorithm::calculateErrorEvaluatorPolynomial(
     const Polynomial<ExtendedFieldElement>& errorLocatorPolynomial) {
   const ExtendedField& extendedField
       = syndromePolynomial.getValue(0).getField();
-  Polynomial<ExtendedFieldElement> syndromePolynomialCopy(syndromePolynomial);
   Polynomial<ExtendedFieldElement> errorEvaluatorPolynomial
-      = errorLocatorPolynomial * syndromePolynomialCopy;
+      = errorLocatorPolynomial * syndromePolynomial;
   Polynomial<ExtendedFieldElement> moduloer(
       {ExtendedFieldElement(0, extendedField)});
   moduloer.setValue(syndromePolynomial.getDegree(),
