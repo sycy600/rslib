@@ -1,11 +1,9 @@
 // Copyright 2013 sycy600
 
-#include <rslib/polynomial.h>
-#include <rslib/simplefield.h>
-#include <rslib/simplefieldelement.h>
+#include <rslib/encoder.h>
 #include <rslib/extendedfield.h>
 #include <rslib/extendedfieldelement.h>
-#include <rslib/encoder.h>
+#include <rslib/polynomial.h>
 #include <tests/fixtures.h>
 #include <gtest/gtest.h>
 
@@ -66,8 +64,8 @@ TEST_F(EncoderFixtureGF9, GetCodeGenerator) {
   ASSERT_EQ(encoder.getCodeGenerator(),
             rslib::Polynomial<rslib::ExtendedFieldElement>(
               {rslib::ExtendedFieldElement(3, ef),
-               rslib::ExtendedFieldElement(2, ef),
                rslib::ExtendedFieldElement(5, ef),
+               rslib::ExtendedFieldElement(3, ef),
                rslib::ExtendedFieldElement(8, ef),
                rslib::ExtendedFieldElement(1, ef)}));
 }
@@ -84,9 +82,9 @@ TEST_F(EncoderFixtureGF9, Encode) {
                   rslib::ExtendedFieldElement(1, ef)});
   ASSERT_EQ(encoder.encode(information),
             rslib::Polynomial<rslib::ExtendedFieldElement>(
-              {rslib::ExtendedFieldElement(5, ef),
-               rslib::ExtendedFieldElement(0, ef),
+              {rslib::ExtendedFieldElement(6, ef),
                rslib::ExtendedFieldElement(5, ef),
+               rslib::ExtendedFieldElement(0, ef),
                rslib::ExtendedFieldElement(2, ef),
                rslib::ExtendedFieldElement(2, ef),
                rslib::ExtendedFieldElement(3, ef),

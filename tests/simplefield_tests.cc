@@ -1,6 +1,5 @@
 // Copyright 2013 sycy600
 
-#include <rslib/polynomial.h>
 #include <rslib/simplefield.h>
 #include <gtest/gtest.h>
 

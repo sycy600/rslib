@@ -52,6 +52,15 @@ TEST(Polynomial, GetValue) {
   ASSERT_EQ(p.getValue(1), 2);
 }
 
+TEST(Polynomial, GetValueOutOfLimit) {
+  // If there is retrieved coefficient at index greater than polynomial
+  // size then zero is returned.
+  std::vector<int> coeff = {1, 2};
+  rslib::Polynomial<int> p(coeff);
+  ASSERT_EQ(p.getValue(1), 2);
+  ASSERT_EQ(p.getValue(2), 0);
+}
+
 TEST(Polynomial, SetValue) {
   std::vector<int> coeff = {1, 2};
   rslib::Polynomial<int> p(coeff);
@@ -214,18 +223,6 @@ TEST(Polynomial, PrintPolynomial) {
   std::ostringstream iss;
   iss << p;
   ASSERT_EQ(iss.str(), "[3,4,5,]");
-}
-
-TEST(Polynomial, Iterators) {
-  rslib::Polynomial<int> p({3, 4, 5});
-  rslib::Polynomial<int>::iterator it = p.begin();
-  ASSERT_EQ(*it, 3);
-  ++it;
-  ASSERT_EQ(*it, 4);
-  ++it;
-  ASSERT_EQ(*it, 5);
-  ++it;
-  ASSERT_EQ(it, p.end());
 }
 
 TEST(Polynomial, ConstIterators) {

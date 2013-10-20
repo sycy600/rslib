@@ -1,10 +1,9 @@
 // Copyright 2013 sycy600
 
+#include <rslib/extendedfield.h>
 #include <rslib/polynomial.h>
 #include <rslib/simplefield.h>
 #include <rslib/simplefieldelement.h>
-#include <rslib/extendedfield.h>
-#include <rslib/extendedfieldelement.h>
 #include <gtest/gtest.h>
 
 TEST(ExtendedField, GetGenerator) {

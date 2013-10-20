@@ -39,10 +39,7 @@ class Polynomial {
   /// \brief Constructor.
   /// \param coefficients Coefficients.
   explicit Polynomial(const std::vector<T>& coefficients)
-      : coefficients_(coefficients) {
-    if (coefficients.size() == 0) {
-      throw PolynomialException("Polynomial cannot be empty");
-    }
+    : coefficients_(coefficients), zero(createZero(coefficients)) {
     cleanZeroes();
   }
 
@@ -52,7 +49,11 @@ class Polynomial {
   }
 
   /// \brief Return coefficient at given index.
+  /// If given index is greater than polynomial size then zero is returned.
   const T& getValue(unsigned int index) const {
+    if (index >= coefficients_.size()) {
+      return zero;
+    }
     return coefficients_[index];
   }
 
@@ -163,16 +164,6 @@ class Polynomial {
     return *this;
   }
 
-  /// \brief Iterator pointing at first element.
-  iterator begin() {
-    return coefficients_.begin();
-  }
-
-  /// \brief Iterator pointing at after last element.
-  iterator end() {
-    return coefficients_.end();
-  }
-
   /// \brief Constant iterator pointing at first element.
   const_iterator begin() const {
     return coefficients_.cbegin();
@@ -185,6 +176,8 @@ class Polynomial {
 
  private:
   std::vector<T> coefficients_;
+
+  T zero;
 
   struct DivisionModuloResult {
      Polynomial<T> quotient_;
@@ -217,6 +210,13 @@ class Polynomial {
       rest -= currentShiftedResult * divisor;
     }
     return {quotient, rest};  // NOLINT(readability/braces)
+  }
+
+  T createZero(const std::vector<T>& coefficients) {
+    if (coefficients.size() == 0) {
+      throw PolynomialException("Polynomial cannot be empty");
+    }
+    return getZero<T>(coefficients_[0]);
   }
 };
 

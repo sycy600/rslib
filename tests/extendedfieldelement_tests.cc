@@ -1,10 +1,10 @@
 // Copyright 2013 sycy600
 
+#include <rslib/extendedfield.h>
+#include <rslib/extendedfieldelement.h>
 #include <rslib/polynomial.h>
 #include <rslib/simplefield.h>
 #include <rslib/simplefieldelement.h>
-#include <rslib/extendedfield.h>
-#include <rslib/extendedfieldelement.h>
 #include <tests/fixtures.h>
 #include <gtest/gtest.h>
 #include <limits>
@@ -23,6 +23,29 @@ TEST_F(ExtendedFieldElementFixtureGF8, PolynomialOfExtendedFieldElements) {
             rslib::ExtendedFieldElement(0, ef),
             rslib::ExtendedFieldElement(1, ef)});
   ASSERT_EQ(poly.getDegree(), 2u);
+}
+
+TEST_F(ExtendedFieldElementFixtureGF8,
+       ConstructorWithPolynomialRepresentation) {
+  // Create A^3
+  rslib::ExtendedFieldElement efe(4, ef);
+  rslib::Polynomial<rslib::SimpleFieldElement> polynomialRepresentation
+      = efe.getPolynomialRepresentation();
+  // Now create A^3 by giving polynomial representation of element.
+  rslib::ExtendedFieldElement efe2(polynomialRepresentation, ef);
+  ASSERT_EQ(efe, efe2);
+}
+
+TEST_F(ExtendedFieldElementFixtureGF8,
+       ConstructorWithPolynomialRepresentationButPolynomialIsNotElement) {
+  rslib::Polynomial<rslib::SimpleFieldElement>
+      poly({rslib::SimpleFieldElement(1, sf),
+            rslib::SimpleFieldElement(0, sf),
+            rslib::SimpleFieldElement(0, sf),
+            rslib::SimpleFieldElement(1, sf)});
+  // Create element with not existing polynomial representation.
+  ASSERT_THROW(rslib::ExtendedFieldElement(poly, ef),
+               rslib::ExtendedFieldElementException);
 }
 
 TEST_F(ExtendedFieldElementFixtureGF8, GetValue) {
@@ -196,7 +219,7 @@ TEST_F(ExtendedFieldElementFixtureGF9, ZechLogarithms) {
   ASSERT_EQ(rslib::ExtendedFieldElement(0, ef).getZechLogarithm(),
             rslib::ZechLogarithm(0));
   ASSERT_EQ(rslib::ExtendedFieldElement(1, ef).getZechLogarithm(),
-            rslib::ZechLogarithm(8));
+            rslib::ZechLogarithm(4));
   ASSERT_EQ(rslib::ExtendedFieldElement(2, ef).getZechLogarithm(),
             rslib::ZechLogarithm(7));
   ASSERT_EQ(rslib::ExtendedFieldElement(3, ef).getZechLogarithm(),
@@ -301,6 +324,13 @@ TEST_F(ExtendedFieldElementFixtureGF9, AddWithAdditiveInverse) {
   rslib::ExtendedFieldElement first(5, ef);
   rslib::ExtendedFieldElement second(1, ef);
   ASSERT_EQ(first + second, rslib::ExtendedFieldElement(0, ef));
+}
+
+TEST_F(ExtendedFieldElementFixtureGF9, Add2) {
+  // A^3 + A^3 = A^7 in GF(9)
+  rslib::ExtendedFieldElement first(4, ef);
+  rslib::ExtendedFieldElement second(4, ef);
+  ASSERT_EQ(first + second, rslib::ExtendedFieldElement(8, ef));
 }
 
 TEST_F(ExtendedFieldElementFixtureGF9, AdditiveInverse) {
