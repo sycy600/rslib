@@ -7,7 +7,7 @@
 
 void RSTestFactory(unsigned int iterations,
                    unsigned int errorCorrectionCapability,
-                   const rslib::ExtendedField &ef,
+                   const rslib::ExtendedField& ef,
                    unsigned int maxNumberOfErrors) {
   rslib::Encoder encoder(errorCorrectionCapability, ef);
   rslib::BMADecoder decoder(errorCorrectionCapability, ef);

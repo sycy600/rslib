@@ -80,7 +80,6 @@ TEST_F(BMADecoderTestFixtureGF16, DecodeExampleTwoErrors) {
 
 TEST_F(BMADecoderTestFixtureGF16, DecodeErrorsOnlyOnRedundantPartOfCodeword) {
   rslib::Encoder encoder(4, ef);
-
   rslib::Polynomial<rslib::ExtendedFieldElement> information =
       rslib::Polynomial<rslib::ExtendedFieldElement>({
                   rslib::ExtendedFieldElement(9, ef),
