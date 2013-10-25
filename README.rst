@@ -21,7 +21,7 @@ Overview
     #include <rslib/simplefield.h>
     #include <rslib/simplefieldelement.h>
     #include <rslib/extendedfield.h>
-    #include <rslib/extemdedfieldelement.h>
+    #include <rslib/extendedfieldelement.h>
     #include <rslib/encoder.h>
     #include <rslib/bmadecoder.h>
     
