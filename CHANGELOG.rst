@@ -6,6 +6,10 @@ Changelog
 Unreleased
 ==========
 
+=====
+0.1.0
+=====
+
 * Add: Basic project configuration
 * Add: Doxygen support
 * Add: Script which prepares environment for Ubuntu
