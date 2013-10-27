@@ -20,12 +20,12 @@ Polynomial<ExtendedFieldElement> BMADecoder::decode(
     const Polynomial<ExtendedFieldElement>& receivedWord) const {
   const Polynomial<ExtendedFieldElement> syndromePolynomial
       = calculateSyndromePolynomial(receivedWord, errorCorrectionCapability_);
-  const Polynomial<ExtendedFieldElement> errorLocatorPolynomial
-      = findLFSRPolynomial(syndromePolynomial, errorCorrectionCapability_);
   // No errors.
-  if (errorLocatorPolynomial.getDegree() == 0) {
+  if (isReceivedWordAValidCodeword(syndromePolynomial)) {
     return extractInformation(receivedWord);
   }
+  const Polynomial<ExtendedFieldElement> errorLocatorPolynomial
+      = findLFSRPolynomial(syndromePolynomial, errorCorrectionCapability_);
   // Find where errors are located.
   const std::vector<ExtendedFieldElement> errorLocators
       = findErrorLocators(errorLocatorPolynomial);
@@ -64,6 +64,13 @@ Polynomial<ExtendedFieldElement> BMADecoder::extractInformation(
           receivedWord.getValue(2 * errorCorrectionCapability_ + i));
   }
   return Polynomial<ExtendedFieldElement>(coefficients);
+}
+
+bool BMADecoder::isReceivedWordAValidCodeword(
+    const Polynomial<ExtendedFieldElement>& syndromePolynomial) const {
+  const ExtendedFieldElement zero(0, extendedField_);
+  return syndromePolynomial.getDegree() == 0
+      && syndromePolynomial.getValue(0) == zero;
 }
 
 }  // namespace rslib
