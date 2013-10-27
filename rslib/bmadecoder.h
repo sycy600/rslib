@@ -43,6 +43,11 @@ class BMADecoder {
   // Extract information part of word.
   Polynomial<ExtendedFieldElement> extractInformation(
       const Polynomial<ExtendedFieldElement>& receivedWord) const;
+
+  // Check if received word is a valid codeword by looking at syndromes
+  // of this received word.
+  bool isReceivedWordAValidCodeword(
+      const Polynomial<ExtendedFieldElement>& syndromePolynomial) const;
 };
 
 }  // namespace rslib
